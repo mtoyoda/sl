@@ -65,7 +65,7 @@ int my_mvaddstr(int y, int x, char *str)
 
 void option(char *str)
 {
-    extern int ACCIDENT, FLY, LONG;
+    extern int ACCIDENT, FLY;
 
     while (*str != '\0') {
         switch (*str++) {
@@ -111,6 +111,8 @@ int main(int argc, char *argv[])
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
+
+    return 0;
 }
 
 
@@ -244,6 +246,8 @@ void add_man(int y, int x)
     for (i = 0; i < 2; ++i) {
         my_mvaddstr(y + i, x, man[(LOGOLENGTH + x) / 12 % 2][i]);
     }
+
+    return;
 }
 
 
@@ -288,4 +292,6 @@ void add_smoke(int y, int x)
         S[sum].ptrn = 0; S[sum].kind = sum % 2;
         sum ++;
     }
+
+   return;
 }
