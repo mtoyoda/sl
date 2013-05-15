@@ -6,7 +6,7 @@
  *	Last Modified: 2013/ 5/ 5
  *========================================
  */
-/* sl version 5.00 : add -c option
+/* sl version 5.00 : add -c option                                           */
 /*                                              by Toyoda Masashi 2013/ 5/ 5 */
 /* sl version 4.00 : add C51, usleep(40000)                                  */
 /*                                              by Toyoda Masashi 2002/12/31 */
