@@ -1,7 +1,7 @@
 /*========================================
  *    sl.c: SL version 5.0
  *	Copyright 1993,1998,2013
- *                Toyoda Masashi 
+ *                Toyoda Masashi
  *		  (mtoyoda@acm.org)
  *	Last Modified: 2013/ 5/ 5
  *========================================
@@ -78,6 +78,8 @@ int main(int argc, char *argv[])
     initscr();
     signal(SIGINT, SIG_IGN);
     noecho();
+    curs_set(0);
+    nodelay(stdscr, TRUE);
     leaveok(stdscr, TRUE);
     scrollok(stdscr, FALSE);
 
@@ -91,6 +93,7 @@ int main(int argc, char *argv[])
 	else {
 	    if (add_D51(x) == ERR) break;
 	}
+    getch();
 	refresh();
 	usleep(40000);
     }
@@ -116,7 +119,7 @@ int add_sl(int x)
 	= {LCAR1, LCAR2, LCAR3, LCAR4, LCAR5, LCAR6, DELLN};
 
     int i, y, py1 = 0, py2 = 0, py3 = 0;
-    
+
     if (x < - LOGOLENGTH)  return ERR;
     y = LINES / 2 - 3;
 
