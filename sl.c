@@ -1,19 +1,21 @@
 /*========================================
- *    sl.c: SL version 5.0
- *	Copyright 1993,1998,2013
+ *    sl.c: SL version 5.01
+ *	Copyright 1993,1998,2014
  *                Toyoda Masashi
  *		  (mtoyoda@acm.org)
- *	Last Modified: 2013/ 5/ 5
+ *	Last Modified: 2014/03/31
  *========================================
  */
+/* sl version 5.01 : removed cursor and handling of IO                       */
+/*                                              by Chris Seymour  2014/01/03 */
 /* sl version 5.00 : add -c option                                           */
-/*                                              by Toyoda Masashi 2013/ 5/ 5 */
+/*                                              by Toyoda Masashi 2013/05/05 */
 /* sl version 4.00 : add C51, usleep(40000)                                  */
 /*                                              by Toyoda Masashi 2002/12/31 */
 /* sl version 3.03 : add usleep(20000)                                       */
-/*                                              by Toyoda Masashi 1998/ 7/22 */
+/*                                              by Toyoda Masashi 1998/07/22 */
 /* sl version 3.02 : D51 flies! Change options.                              */
-/*                                              by Toyoda Masashi 1993/ 1/19 */
+/*                                              by Toyoda Masashi 1993/01/19 */
 /* sl version 3.01 : Wheel turns smoother                                    */
 /*                                              by Toyoda Masashi 1992/12/25 */
 /* sl version 3.00 : Add d(D51) option                                       */
