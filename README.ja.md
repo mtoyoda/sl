@@ -6,4 +6,4 @@ SL: キータイプ矯正ソフト
 いまさらながら若干アップデートしました。
 a,l,F,c オプションが有効です。機能は実行して確かめてください。
 
-Copyright 1993,1998,2013 Toyoda Masashi (mtoyoda@acm.org)
+Copyright 1993,1998,2014 Toyoda Masashi (mtoyoda@acm.org)
