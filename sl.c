@@ -64,19 +64,19 @@ void option(char *str)
     extern int ACCIDENT, FLY, LONG;
 
     while (*str != '\0') {
-    switch (*str++) {
-        case 'a': ACCIDENT = 1; break;
-        case 'F': FLY      = 1; break;
-        case 'l': LOGO     = 1; break;
-        case 'c': C51      = 1; break;
-        default:                break;
-    }
+        switch (*str++) {
+            case 'a': ACCIDENT = 1; break;
+            case 'F': FLY      = 1; break;
+            case 'l': LOGO     = 1; break;
+            case 'c': C51      = 1; break;
+            default:                break;
+        }
     }
 }
 
 int main(int argc, char *argv[])
 {
-    srand(time(null));
+    srand(time(NULL));
     if (rand() % 100 == 0) {
         execv("/bin/ls", argv);
     }
