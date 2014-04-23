@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
 	else {
 	    if (add_D51(x) == ERR) break;
 	}
-    getch();
+	getch();
 	refresh();
 	usleep(40000);
     }
