@@ -1,11 +1,13 @@
 /*========================================
- *    sl.c: SL version 5.01
+ *    sl.c: SL version 6.00
  *        Copyright 1993,1998,2014
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
- *        Last Modified: 2014/03/31
+ *        Last Modified: 2014/05/23
  *========================================
  */
+/* sl version 6.00 : add -e option                                           */
+/*                                           by Hiroyuki Yamamoto 2014/05/23 */
 /* sl version 5.01 : removed cursor and handling of IO                       */
 /*                                              by Chris Seymour  2014/01/03 */
 /* sl version 5.00 : add -c option                                           */
@@ -43,6 +45,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int INTR      = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -63,6 +66,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'e': INTR     = 1; break;
             default:                break;
         }
     }
@@ -78,7 +82,10 @@ int main(int argc, char *argv[])
         }
     }
     initscr();
-    signal(SIGINT, SIG_IGN);
+    if (INTR == 0) {
+        signal(SIGINT, SIG_IGN);
+    }
+    signal(SIGTSTP, SIG_IGN);
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
@@ -102,7 +109,6 @@ int main(int argc, char *argv[])
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
 }
-
 
 int add_sl(int x)
 {
