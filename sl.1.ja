@@ -3,7 +3,7 @@
 .\"		         (mtoyoda@acm.org)
 .\"	@(#)sl.1
 .\"
-.TH SL 1 "March 31, 2014"
+.TH SL 1 "June 16, 2014"
 .SH 名称
 sl \- キータイプを矯正します。
 .SH 形式
