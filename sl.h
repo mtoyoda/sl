@@ -1,17 +1,28 @@
 /*========================================
- *    sl.h: SL version 5.02
+ *    sl.h: SL version 6.00
  *	Copyright 1993,2002,2014
  *                Toyoda Masashi
  *		  (mtoyoda@acm.org)
- *	Last Modified: 2014/06/03
+ *	Last Modified: 2014/06/16
  *========================================
  */
+
+#ifndef SL_H
+#define SL_H
+
+/* Function Prototypes */
+void add_smoke(int y, int x);
+void add_man(int y, int x);
+int add_C51(int x);
+int add_D51(int x);
+int add_sl(int x);
+void option(char *str);
+int my_mvaddstr(int y, int x, char *str);
 
 #define D51HIGHT	10
 #define D51FUNNEL	 7
 #define D51LENGTH	83
 #define D51PATTERNS	 6
-
 
 #define D51STR1  "      ====        ________                ___________ "
 #define D51STR2  "  _D _|  |_______/        \\__I_I_____===__|_________| "
@@ -148,3 +159,5 @@
 #define C51WH12 "------'|oOo|=[]=-      ||      ||      |  ||=======_|__"
 #define C51WH13 "/~\\____|___|/~\\_|  O=======O=======O   |__|+-/~\\_|     "
 #define C51WH14 "\\_/         \\_/  \\____/  \\____/  \\____/      \\_/       "
+
+#endif /* SL_H */
