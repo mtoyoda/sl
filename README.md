@@ -1,8 +1,8 @@
 SL: Cure your bad habit of mistyping
 =======================================
 
-This fork of sl includes the -e option to allow interrupt by Ctrl+C,
-(just like the Debian/Ubuntu version of sl).
+#####This fork of sl includes the -e option to allow interrupt by Ctrl+C,
+#####(just like the Debian/Ubuntu version of sl).
 
 INSTALL
 -------
