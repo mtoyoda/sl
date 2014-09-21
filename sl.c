@@ -6,6 +6,8 @@
  *        Last Modified: 2014/06/03
  *========================================
  */
+/* sl version 5.03 : Add -s option                                           */
+/*                                              by Tristan F.     2014/06/03 */
 /* sl version 5.02 : Fix compiler warnings.                                  */
 /*                                              by Jeff Schwab    2014/06/03 */
 /* sl version 5.01 : removed cursor and handling of IO                       */
@@ -39,6 +41,7 @@
 #include <curses.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "sl.h"
 
 void add_smoke(int y, int x);
@@ -53,6 +56,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int SPEED     = 10;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -63,30 +67,40 @@ int my_mvaddstr(int y, int x, char *str)
     return OK;
 }
 
-void option(char *str)
+int main(int argc, char *argv[])
 {
-    extern int ACCIDENT, FLY, LONG;
+    extern int ACCIDENT, FLY, LONG, SPEED,optind, optopt;
+    extern char *optarg;
+    int c, x, i, errflg;
 
-    while (*str != '\0') {
-        switch (*str++) {
+    while ((c = getopt(argc, argv, "aFlcs:")) != -1) {
+        switch(c) {
             case 'a': ACCIDENT = 1; break;
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
-            default:                break;
+            case 's':
+                SPEED = atoi(optarg);
+                if(SPEED < 1) SPEED = 1;
+                else if(SPEED > 9) SPEED = 9;
+                break;
+            case ':':
+                fprintf(stderr,
+                        "Option -%c requires a value\n", optopt);
+                errflg++;
+                break;
+            case '?':
+                fprintf(stderr,
+                        "Unrecognized option: -%c\n", optopt);
+                errflg++;
+                break;
         }
     }
-}
 
-int main(int argc, char *argv[])
-{
-    int x, i;
-
-    for (i = 1; i < argc; ++i) {
-        if (*argv[i] == '-') {
-            option(argv[i] + 1);
-        }
+    if (errflg) {
+        exit(2);
     }
+
     initscr();
     signal(SIGINT, SIG_IGN);
     noecho();
@@ -107,7 +121,7 @@ int main(int argc, char *argv[])
         }
         getch();
         refresh();
-        usleep(40000);
+        usleep(40000 + ((SPEED - 5) * -9000));
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
