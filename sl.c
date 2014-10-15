@@ -3,9 +3,12 @@
  *        Copyright 1993,1998,2014
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
- *        Last Modified: 2014/06/03
+ *        Last Modified: 2014/10/15
  *========================================
  */
+/* sl version 6.00 : add -b option					     */
+/*						by Arthur Deschamps 2014/10/15 */
+/* 									     */
 /* sl version 5.02 : Fix compiler warnings.                                  */
 /*                                              by Jeff Schwab    2014/06/03 */
 /* sl version 5.01 : removed cursor and handling of IO                       */
@@ -53,6 +56,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int BELL      = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -73,6 +77,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+ 	    case 'b': BELL     = 1; break;
             default:                break;
         }
     }
@@ -107,6 +112,8 @@ int main(int argc, char *argv[])
         }
         getch();
         refresh();
+	if (BELL == 1)	
+           write(0, "\a", 1);
         usleep(40000);
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
