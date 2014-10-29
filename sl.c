@@ -39,6 +39,8 @@
 #include <curses.h>
 #include <signal.h>
 #include <unistd.h>
+#include <time.h>
+#include <stdlib.h>
 #include "sl.h"
 
 void add_smoke(int y, int x);
@@ -53,6 +55,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int RAND      = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -73,6 +76,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'r': RAND     = 1; break;
             default:                break;
         }
     }
@@ -86,6 +90,14 @@ int main(int argc, char *argv[])
         if (*argv[i] == '-') {
             option(argv[i] + 1);
         }
+    }
+    if (RAND == 1)
+    {
+        srand(time(NULL));
+        ACCIDENT  = rand() % 2;
+        LOGO      = rand() % 2;
+        FLY       = rand() % 2;
+        C51       = rand() % 2;
     }
     initscr();
     signal(SIGINT, SIG_IGN);
