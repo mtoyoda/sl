@@ -1,11 +1,13 @@
 /*========================================
- *    sl.c: SL version 5.02
+ *    sl.c: SL version 6.00
  *        Copyright 1993,1998,2014
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
- *        Last Modified: 2014/06/03
+ *        Last Modified: 2014/06/16
  *========================================
  */
+/* sl version 6.00 : add -e option                                           */
+/*                                           by Hiroyuki Yamamoto 2014/06/16 */
 /* sl version 5.02 : Fix compiler warnings.                                  */
 /*                                              by Jeff Schwab    2014/06/03 */
 /* sl version 5.01 : removed cursor and handling of IO                       */
@@ -41,18 +43,11 @@
 #include <unistd.h>
 #include "sl.h"
 
-void add_smoke(int y, int x);
-void add_man(int y, int x);
-int add_C51(int x);
-int add_D51(int x);
-int add_sl(int x);
-void option(char *str);
-int my_mvaddstr(int y, int x, char *str);
-
 int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int INTR      = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -73,6 +68,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'e': INTR     = 1; break;
             default:                break;
         }
     }
@@ -88,7 +84,10 @@ int main(int argc, char *argv[])
         }
     }
     initscr();
-    signal(SIGINT, SIG_IGN);
+    if (INTR == 0) {
+        signal(SIGINT, SIG_IGN);
+    }
+    signal(SIGTSTP, SIG_IGN);
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
@@ -112,7 +111,6 @@ int main(int argc, char *argv[])
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
 }
-
 
 int add_sl(int x)
 {
