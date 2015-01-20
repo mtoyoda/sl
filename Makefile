@@ -7,7 +7,7 @@
 #==========================================
 
 CC=gcc
-CFLAGS=-O
+CFLAGS=-O -Wall
 
 sl: sl.c sl.h
 	$(CC) $(CFLAGS) -o sl sl.c -lncurses
