@@ -94,10 +94,10 @@ int main(int argc, char *argv[])
     if (RAND == 1)
     {
         srand(time(NULL));
-        ACCIDENT  = rand() % 2;
-        LOGO      = rand() % 2;
-        FLY       = rand() % 2;
-        C51       = rand() % 2;
+        ACCIDENT  |= rand() % 2;
+        LOGO      |= rand() % 2;
+        FLY       |= rand() % 2;
+        C51       |= rand() % 2;
     }
     initscr();
     signal(SIGINT, SIG_IGN);
