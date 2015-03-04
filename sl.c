@@ -52,6 +52,7 @@ int my_mvaddstr(int y, int x, char *str);
 int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
+int INTR      = 0;
 int C51       = 0;
 
 int my_mvaddstr(int y, int x, char *str)
@@ -70,6 +71,7 @@ void option(char *str)
     while (*str != '\0') {
         switch (*str++) {
             case 'a': ACCIDENT = 1; break;
+            case 'e': INTR     = 1; break;
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
@@ -88,7 +90,9 @@ int main(int argc, char *argv[])
         }
     }
     initscr();
-    signal(SIGINT, SIG_IGN);
+    if (INTR == 0) {
+      signal(SIGINT, SIG_IGN);
+    }
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
