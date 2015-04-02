@@ -55,7 +55,7 @@ int ALL_LENGTH = 0;
 int DIREC = RTOL;
 int WAIT_TIME = 20000;
 
-int my_mvaddstr(int y, int x, char *str)
+int my_mvaddstr(int y, int x, const char *str)
 {
     int i = 0;
 
@@ -65,7 +65,7 @@ int my_mvaddstr(int y, int x, char *str)
     return OK;
 }
 
-int my_mvaddstr_r(int y, int x, char *str)
+int my_mvaddstr_r(int y, int x, const char *str)
 {
     int i = 0;
     char c;
@@ -524,7 +524,7 @@ int x_gate(int p)
 
 int add_sl(int x, char *c[])
 {
-    static char *sl[LOGOPATTERNS][LOGOHIGHT + 1]
+    static const char *sl[LOGOPATTERNS][LOGOHIGHT + 1]
 	= {{LOGO1, LOGO2, LOGO3, LOGO4, LWHL11, LWHL12, DELLN},
 	   {LOGO1, LOGO2, LOGO3, LOGO4, LWHL21, LWHL22, DELLN},
 	   {LOGO1, LOGO2, LOGO3, LOGO4, LWHL31, LWHL32, DELLN},
@@ -532,7 +532,7 @@ int add_sl(int x, char *c[])
 	   {LOGO1, LOGO2, LOGO3, LOGO4, LWHL51, LWHL52, DELLN},
 	   {LOGO1, LOGO2, LOGO3, LOGO4, LWHL61, LWHL62, DELLN}};
 
-    static char *car[LOGOHIGHT + 1]
+    static const char *car[LOGOHIGHT + 1]
 	= {LCAR1, LCAR2, LCAR3, LCAR4, LCAR5, LCAR6, DELLN};
 
     int i, y, py1 = 0, py2 = 0, py3 = 0;
@@ -641,7 +641,7 @@ int add_D51_coach_r(int x)
 
 int add_man(int y, int x)
 {
-    static char *man[2][2] = {{"", "(O)"}, {"Help!", "\\O/"}};
+    static const char *man[2][2] = {{"", "(O)"}, {"Help!", "\\O/"}};
     int i;
 
     if ( x < 0 ) {
@@ -662,7 +662,7 @@ int add_smoke(int y, int x)
 	int ptrn, kind;
     } S[1000];
     static int sum = 0;
-    static char *Smoke[2][SMOKEPTNS]
+    static const char *Smoke[2][SMOKEPTNS]
 	= {{"(   )", "(    )", "(    )", "(   )", "(  )",
 	    "(  )" , "( )"   , "( )"   , "()"   , "()"  ,
 	    "O"    , "O"     , "O"     , "O"    , "O"   ,
@@ -671,7 +671,7 @@ int add_smoke(int y, int x)
 	    "(@@)" , "(@)"   , "(@)"   , "@@"   , "@@"  ,
 	    "@"    , "@"     , "@"     , "@"    , "@"   ,
 	    " "                                          }};
-    static char *Eraser[SMOKEPTNS]
+    static const char *Eraser[SMOKEPTNS]
 	=  {"     ", "      ", "      ", "     ", "    ",
 	    "    " , "   "   , "   "   , "  "   , "  "  ,
 	    " "    , " "     , " "     , " "    , " "   ,
@@ -711,7 +711,7 @@ int add_smoke_r(int y, int x)
 	int ptrn, kind;
     } S[1000];
     static int sum = 0;
-    static char *Smoke[2][SMOKEPTNS]
+    static const char *Smoke[2][SMOKEPTNS]
 	= {{"(   )", "(    )", "(    )", "(   )", "(  )",
 	    "(  )" , "( )"   , "( )"   , "()"   , "()"  ,
 	    "O"    , "O"     , "O"     , "O"    , "O"   ,
@@ -720,7 +720,7 @@ int add_smoke_r(int y, int x)
 	    "(@@)" , "(@)"   , "(@)"   , "@@"   , "@@"  ,
 	    "@"    , "@"     , "@"     , "@"    , "@"   ,
 	    " "                                          }};
-    static char *Eraser[SMOKEPTNS]
+    static const char *Eraser[SMOKEPTNS]
 	=  {"     ", "      ", "      ", "     ", "    ",
 	    "    " , "   "   , "   "   , "  "   , "  "  ,
 	    " "    , " "     , " "     , " "    , " "   ,
