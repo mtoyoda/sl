@@ -8,7 +8,7 @@
 #	Hiroyuki Yamamoto <yama1066@gmail.com>
 #	Modify for Debian 2008/12/27
 CC=gcc
-CFLAGS=-O
+CFLAGS=-O -Wall -Wextra -pedantic
 
 all: sl sl-h
 
