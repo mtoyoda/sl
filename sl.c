@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
     nodelay(stdscr, TRUE);
     leaveok(stdscr, TRUE);
     scrollok(stdscr, FALSE);
-    (void)curs_set(0);
+    curs_set(0);
 
     for (x = COLS - 1; ; --x) {
         if (LOGO == 1) {
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
         usleep(40000);
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
-    (void)curs_set(1);
+    curs_set(1);
     endwin();
 
     return 0;

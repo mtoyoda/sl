@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 #endif
     leaveok(stdscr, TRUE);
     scrollok(stdscr, FALSE);
-    (void)curs_set(0);
+    curs_set(0);
 
     DIREC = RTOL;
     p = 3 * COLS / 10;
@@ -220,7 +220,7 @@ int main(int argc, char *argv[])
       end_gate(p);
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
-    (void)curs_set(0);
+    curs_set(0);
     endwin();
 
     return 0;
