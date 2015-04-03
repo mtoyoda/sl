@@ -111,13 +111,13 @@ static int dirc(int y, int x)
   return 0;
 }
  
-
+#ifdef DEBUG
 static void end_proc() {
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
     exit(SIGINT);
 }
-
+#endif
 
 static int add_cross(int p)
 {
