@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
     p = 3 * COLS / 10;
     pp = (char*)malloc((size_t)(COLS + ALL_LENGTH + 10) * (D51HIGHT + 1) * (D51PATTERNS + 1));
     for (i = 0; i <= (COLS + ALL_LENGTH + 1) * (D51HIGHT + 1) * D51PATTERNS; ++i) {
-      pp[i] = (char)NULL;
+      pp[i] = '\0';
     }
 
     for (j = 0; j < D51PATTERNS; ++j) {
@@ -522,7 +522,7 @@ int x_gate(int p)
   return 0;
 }
 
-int add_sl(int x, char *c[])
+int add_sl(int x)
 {
     static const char *sl[LOGOPATTERNS][LOGOHIGHT + 1]
 	= {{LOGO1, LOGO2, LOGO3, LOGO4, LWHL11, LWHL12, DELLN},
@@ -561,7 +561,7 @@ int add_sl(int x, char *c[])
 
 int add_D51_coach(int x, char *c[])
 {
-    int y, i, dy = 0;
+    int y, i;
 #ifdef DEBUG
     char buf[100];
 #endif
@@ -575,7 +575,6 @@ int add_D51_coach(int x, char *c[])
 #endif
     if (FLY == 1) {
 	y = (x / 7) + LINES - (COLS / 7) - D51HIGHT;
-	dy = 1;
     }
     for (i = 0; i <= D51HIGHT; ++i) {
        my_mvaddstr(y + i, 0, c[(D51HIGHT + 1) * ((ALL_LENGTH + x) % D51PATTERNS) + i] + COLS - x);
