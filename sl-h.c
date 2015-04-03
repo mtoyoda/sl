@@ -163,10 +163,7 @@ int main(int argc, char *argv[])
 
     DIREC = RTOL;
     p = 3 * COLS / 10;
-    pp = (char*)malloc((size_t)(COLS + ALL_LENGTH + 10) * (D51HIGHT + 1) * (D51PATTERNS + 1));
-    for (i = 0; i <= (COLS + ALL_LENGTH + 1) * (D51HIGHT + 1) * D51PATTERNS; ++i) {
-      pp[i] = '\0';
-    }
+    pp = calloc((COLS + ALL_LENGTH + 10) * (D51HIGHT + 1) * (D51PATTERNS + 1), 1);
 
     for (j = 0; j < D51PATTERNS; ++j) {
       for (i = 0; i <= D51HIGHT; ++i) {
@@ -183,15 +180,13 @@ int main(int argc, char *argv[])
 	for (k = 0; k < PASSNUM - 1; ++k) {
 	  strncat(c[j][i], coach[i], 88);
 	  if ( i == 3 ) {
-	    sprintf(num, "%d", k + 1);
-	    len = strlen(num);
+	    len = sprintf(num, "%d", k + 1);
 	    strncpy(c[j][i] + COLS + 254 + (PASSLENGTH * k), num, len);
 	  }
 	}
 	strncat(c[j][i], lcoach[i], 89);
 	if ( i == 3 ) {
-	  sprintf(num, "%d", k + 1);
-	  len = strlen(num);
+	  len = sprintf(num, "%d", k + 1);
 	  strncpy(c[j][i] + COLS + 254 + (PASSLENGTH * k), num, len);
 	}
       }
