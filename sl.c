@@ -83,7 +83,6 @@ static void add_man(int y, int x)
 }
 
 static void add_smoke(int y, int x)
-#define SMOKEPTNS        16
 {
     static struct smokes {
         int y, x;

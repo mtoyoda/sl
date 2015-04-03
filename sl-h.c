@@ -36,9 +36,6 @@
 #include <unistd.h>
 #include "sl-h.h"
 
-#define RTOL 0
-#define LTOR 1
-
 #ifndef useconds_t
   #define USLEEP_ARG0_TYPE unsigned
 #else
@@ -420,7 +417,6 @@ static int add_man(int y, int x)
 
 
 static int add_smoke(int y, int x)
-#define SMOKEPTNS	16
 {
     static struct smokes {
 	int y, x;
@@ -469,7 +465,6 @@ static int add_smoke(int y, int x)
 
 
 static int add_smoke_r(int y, int x)
-#define SMOKEPTNS	16
 {
     static struct smokes {
 	int y, x;

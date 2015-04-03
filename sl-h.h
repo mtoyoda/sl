@@ -6,11 +6,13 @@
  *========================================
  */
 
-#define D51HIGHT	10
-#define D51FUNNEL	 7
-/*#define D51LENGTH       82*/
-#define D51LENGTH       172
-#define D51PATTERNS	 6
+#define SMOKEPTNS	 16
+#define RTOL		  0
+
+#define D51HIGHT	 10
+#define D51FUNNEL	  7
+#define D51LENGTH	172
+#define D51PATTERNS	  6
 
 
 #define D51STR1  "      ====        ________                ___________ "
@@ -179,9 +181,6 @@ static int cros0l[] = {0, 0, 0, 1, 0, 2, 2, 2, 2, 0};
 #define CROS308 "                    "
 #define CROS309 "___"
 #define CROS310 "|-+-----------------"
-
-/*#define PASSNUM 5*/
-/*#define ALL_LENGTH (D51LENGTH + (PASSLENGTH * (PASSNUM - 1)) + LPASSLENGTH)*/
 
 static const char *cros0[D51HIGHT]
 = {CROS001, CROS002, CROS003, CROS004, CROS005,
