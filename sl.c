@@ -57,8 +57,6 @@ static int my_mvaddstr(int y, int x, const char *str)
 
 static void option(char *str)
 {
-    extern int ACCIDENT, FLY;
-
     while (*str != '\0') {
         switch (*str++) {
             case 'a': ACCIDENT = 1; break;
