@@ -1,2 +1,2 @@
 LDFLAGS+=-lncurses
-CFLAGS+=-O
+CFLAGS?=-O
