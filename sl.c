@@ -1,11 +1,13 @@
 /*========================================
- *    sl.c: SL version 5.02
+ *    sl.c: SL version 5.03
  *        Copyright 1993,1998,2014
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
- *        Last Modified: 2014/06/03
+ *        Last Modified: 2015/04/22
  *========================================
  */
+/* sl version 5.02 : Add Unicorn support.                                    */
+/*                                              by Daniel Piet    2015/04/22 */
 /* sl version 5.02 : Fix compiler warnings.                                  */
 /*                                              by Jeff Schwab    2014/06/03 */
 /* sl version 5.01 : removed cursor and handling of IO                       */
@@ -46,6 +48,7 @@ void add_man(int y, int x);
 int add_C51(int x);
 int add_D51(int x);
 int add_sl(int x);
+int add_UNICORN(int x);
 void option(char *str);
 int my_mvaddstr(int y, int x, char *str);
 
@@ -53,6 +56,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int UNICORN   = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -73,6 +77,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'u': UNICORN  = 1; break;
             default:                break;
         }
     }
@@ -101,6 +106,9 @@ int main(int argc, char *argv[])
         }
         else if (C51 == 1) {
             if (add_C51(x) == ERR) break;
+        }
+        else if (UNICORN == 1) {
+            if (add_UNICORN(x) == ERR) break;
         }
         else {
             if (add_D51(x) == ERR) break;
@@ -193,6 +201,25 @@ int add_D51(int x)
     }
     add_smoke(y - 1, x + D51FUNNEL);
     return OK;
+}
+
+int add_UNICORN(int x)
+{
+  static char *unicorn[UNICORNHIGHT]
+        = {UNICORN00, UNICORN01, UNICORN02, UNICORN03, UNICORN04, UNICORN05,
+           UNICORN06, UNICORN07, UNICORN08, UNICORN09, UNICORN10,
+           UNICORN11, UNICORN12, UNICORN13, UNICORN14, UNICORN15,
+           UNICORN16, UNICORN17, UNICORN18, UNICORN19, UNICORN20,
+           UNICORN21, UNICORN22, UNICORN23, UNICORN24, UNICORN25};
+
+  int y, i, dy = 0;
+
+  if (x < - UNICORNLENGTH) return ERR;
+  y = LINES / 2 - 5;
+  for (i = 0; i <= UNICORNHIGHT; ++i) {
+    my_mvaddstr(y + i, x, unicorn[i]);
+  }
+  return OK;
 }
 
 int add_C51(int x)
