@@ -53,13 +53,26 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int RAINBOW   = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
+    int color;
     for ( ; x < 0; ++x, ++str)
         if (*str == '\0')  return ERR;
-    for ( ; *str != '\0'; ++str, ++x)
-        if (mvaddch(y, x, *str) == ERR)  return ERR;
+    for ( ; *str != '\0'; ++str, ++x) {
+        if (RAINBOW == 1) {
+            color = ((x+y)/5) % 7 + 1;
+            attron(COLOR_PAIR(color));
+        }
+        if (mvaddch(y, x, *str) == ERR) {
+            if (RAINBOW == 1)
+                attroff(COLOR_PAIR(color));
+            return ERR;
+        }
+        if (RAINBOW == 1)
+            attroff(COLOR_PAIR(color));
+    }
     return OK;
 }
 
@@ -73,6 +86,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'r': RAINBOW  = 1; break;
             default:                break;
         }
     }
@@ -94,6 +108,28 @@ int main(int argc, char *argv[])
     nodelay(stdscr, TRUE);
     leaveok(stdscr, TRUE);
     scrollok(stdscr, FALSE);
+
+    if (RAINBOW == 1) {
+        start_color();
+
+        if (can_change_color()) {
+            init_color(COLOR_RED, 1000, 0, 0);
+            init_color(COLOR_WHITE, 1000, 500, 0);
+            init_color(COLOR_YELLOW, 1000, 1000, 0);
+            init_color(COLOR_GREEN, 0, 1000, 0);
+            init_color(COLOR_CYAN, 300, 300, 1000);
+            init_color(COLOR_BLUE, 0, 0, 1000);
+            init_color(COLOR_MAGENTA, 1000, 0, 1000);
+        }
+
+        init_pair(1, COLOR_RED, COLOR_BLACK);
+        init_pair(2, COLOR_WHITE, COLOR_BLACK);
+        init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+        init_pair(4, COLOR_GREEN, COLOR_BLACK);
+        init_pair(5, COLOR_CYAN, COLOR_BLACK);
+        init_pair(6, COLOR_BLUE, COLOR_BLACK);
+        init_pair(7, COLOR_MAGENTA, COLOR_BLACK);
+    }
 
     for (x = COLS - 1; ; --x) {
         if (LOGO == 1) {
