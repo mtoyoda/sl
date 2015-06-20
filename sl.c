@@ -1,11 +1,12 @@
 /*========================================
- *    sl.c: SL version 5.02
+ *    sl.c: SL version 5.03
  *        Copyright 1993,1998,2014
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
- *        Last Modified: 2014/06/03
+ *        Last Modified: 2015/06/20
  *========================================
  */
+/* sl version 5.03 : More compiler fixes        by various coders 2015/05/20 */
 /* sl version 5.02 : Fix compiler warnings.                                  */
 /*                                              by Jeff Schwab    2014/06/03 */
 /* sl version 5.01 : removed cursor and handling of IO                       */
@@ -36,6 +37,8 @@
 /* sl version 1.00 : SL runs vomitting out smoke.                            */
 /*                                              by Toyoda Masashi 1992/12/11 */
 
+#define _XOPEN_SOURCE
+#define _XOPEN_SOURCE_EXTENDED
 #include <curses.h>
 #include <signal.h>
 #include <unistd.h>

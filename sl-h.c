@@ -2,9 +2,10 @@
  *    sl.c:
  *	Copyright 1993,1998 Toyoda Masashi 
  *		(toyoda@is.titech.ac.jp)
- *	Last Modified: 1998/ 7/22
+ *	Last Modified: 2016/06/20
  *========================================
  */
+/* sl version 5.03 : compiler warning fixes     by various coders 2016/06/20 */
 /* sl version 3.03 : add usleep(20000)                                       */
 /*                                              by Toyoda Masashi 1998/ 7/22 */
 /* sl version 3.02 : D51 flies! Change options.                              */
@@ -27,6 +28,8 @@
 /* sl version 1.00 : SL runs vomitting out smoke.                            */
 /*						by Toyoda Masashi 1992/12/11 */
 
+#define _XOPEN_SOURCE
+#define _XOPEN_SOURCE_EXTENDED
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
