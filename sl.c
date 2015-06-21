@@ -6,7 +6,7 @@
  *        Last Modified: 2015/06/20
  *========================================
  */
-/* sl version 5.03 : More compiler fixes        by various coders 2015/05/20 */
+/* sl version 5.04 : More compiler fixes        by various coders 2015/05/20 */
 /* sl version 5.02 : Fix compiler warnings.                                  */
 /*                                              by Jeff Schwab    2014/06/03 */
 /* sl version 5.01 : removed cursor and handling of IO                       */

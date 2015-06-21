@@ -5,7 +5,7 @@
  *	Last Modified: 2016/06/20
  *========================================
  */
-/* sl version 5.03 : compiler warning fixes     by various coders 2016/06/20 */
+/* sl version 5.04 : compiler warning fixes     by various coders 2016/06/20 */
 /* sl version 3.03 : add usleep(20000)                                       */
 /*                                              by Toyoda Masashi 1998/ 7/22 */
 /* sl version 3.02 : D51 flies! Change options.                              */
