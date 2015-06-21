@@ -10,7 +10,7 @@
 #	Beefcurtains and Kylesusername:
 #	Adapted for Void Linux 2015/12/27
 
-override LDFLAGS+=-lncurses
+LDLIBS=-lncurses
 
 all: sl sl-h
 
