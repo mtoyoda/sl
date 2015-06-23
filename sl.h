@@ -7,11 +7,12 @@
  *========================================
  */
 
+#define SMOKEPTNS	16
+
 #define D51HIGHT	10
 #define D51FUNNEL	 7
 #define D51LENGTH	83
 #define D51PATTERNS	 6
-
 
 #define D51STR1  "      ====        ________                ___________ "
 #define D51STR2  "  _D _|  |_______/        \\__I_I_____===__|_________| "
