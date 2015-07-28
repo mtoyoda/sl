@@ -7,7 +7,7 @@
  *========================================
  */
 
-#define D51HIGHT	10
+#define D51HEIGHT	10
 #define D51FUNNEL	 7
 #define D51LENGTH	83
 #define D51PATTERNS	 6
@@ -60,7 +60,7 @@
 
 #define COALDEL "                              "
 
-#define LOGOHIGHT    	 6
+#define LOGOHEIGHT    	 6
 #define LOGOFUNNEL  	 4
 #define LOGOLENGTH      84
 #define LOGOPATTERNS	 6
@@ -104,7 +104,7 @@
 
 #define DELLN  "                     "
 
-#define C51HIGHT 11
+#define C51HEIGHT 11
 #define C51FUNNEL 7
 #define C51LENGTH 87
 #define C51PATTERNS 6
