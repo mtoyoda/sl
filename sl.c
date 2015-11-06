@@ -36,10 +36,14 @@
 /* sl version 1.00 : SL runs vomitting out smoke.                            */
 /*                                              by Toyoda Masashi 1992/12/11 */
 
-#include <curses.h>
-#include <signal.h>
-#include <unistd.h>
 #include "sl.h"
+
+#include <curses.h>
+#include <errno.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 void add_smoke(int y, int x);
 void add_man(int y, int x);
@@ -54,6 +58,62 @@ int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
 
+typedef struct {
+  pid_t pid;
+  int   pipes[2];
+} watchdog_process;
+
+/* Watchdog process to foil more advanced killing attempts by the user.
+ * The watchdog process will spawn an xterm running sl that ignores all
+ * signals it can ignore.
+ */
+watchdog_process watchdog_open(char *cmd) {
+    watchdog_process self;
+
+    pipe(self.pipes);
+    self.pid = fork();
+
+    if(self.pid == 0) {
+        /* child side. Ignore all signals in the watchdog process. Except
+	 * SIGKILL (which we need and can't ignore anyway).
+	 */
+        sigset_t sigs, sigs_old;
+        sigfillset(&sigs);
+        sigdelset(&sigs, SIGKILL);
+        sigprocmask(SIG_SETMASK, &sigs, &sigs_old);
+
+        close(self.pipes[1]);
+
+	/* This pipe closes if the parent process dies. If the parent
+	 * doesn't die, it'll SIGKILL us and we'll never get to the next
+	 * part.
+	 */
+        do {
+            char c;
+            ssize_t make_compiler_happy;
+
+            errno = 0;
+            make_compiler_happy = read(self.pipes[0], &c, 1);
+            (void) make_compiler_happy;
+        } while(errno == EINTR);
+
+        /* You tried to kill me, but I rise stronger than ever.
+	 * This xterm will ignore ignorable signals.
+	 */
+        close(self.pipes[0]);
+        execlp("xterm", "xterm", cmd, NULL);
+    }
+
+    return self;
+}
+
+/* Close the watchdog process (used in the main process): Kill child, close pipe. */
+void watchdog_close(watchdog_process *self) {
+    kill(self->pid, SIGKILL);
+    close(self->pipes[1]);
+    memset(self, 0, sizeof(*self));
+}
+
 int my_mvaddstr(int y, int x, char *str)
 {
     for ( ; x < 0; ++x, ++str)
@@ -65,7 +125,7 @@ int my_mvaddstr(int y, int x, char *str)
 
 void option(char *str)
 {
-    extern int ACCIDENT, FLY, LONG;
+    extern int ACCIDENT, FLY;
 
     while (*str != '\0') {
         switch (*str++) {
@@ -81,6 +141,7 @@ void option(char *str)
 int main(int argc, char *argv[])
 {
     int x, i;
+    watchdog_process wd = watchdog_open(argv[0]);
 
     for (i = 1; i < argc; ++i) {
         if (*argv[i] == '-') {
@@ -112,6 +173,10 @@ int main(int argc, char *argv[])
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
+
+    watchdog_close(&wd);
+
+    return 0;
 }
 
 
