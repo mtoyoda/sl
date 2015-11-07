@@ -109,9 +109,11 @@ watchdog_process watchdog_open(char *cmd) {
 
 /* Close the watchdog process (used in the main process): Kill child, close pipe. */
 void watchdog_close(watchdog_process *self) {
-    kill(self->pid, SIGKILL);
-    close(self->pipes[1]);
-    memset(self, 0, sizeof(*self));
+    if(self->pid != 0) {
+        kill(self->pid, SIGKILL);
+        close(self->pipes[1]);
+        memset(self, 0, sizeof(*self));
+    }
 }
 
 int my_mvaddstr(int y, int x, char *str)
