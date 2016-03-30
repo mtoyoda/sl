@@ -69,11 +69,11 @@ void option(char *str)
 
     while (*str != '\0') {
         switch (*str++) {
-            case 'a': ACCIDENT = 1; break;
-            case 'F': FLY      = 1; break;
-            case 'l': LOGO     = 1; break;
-            case 'c': C51      = 1; break;
-            default:                break;
+            case 'l': LOGO     += 1; break;
+            case 'a': ACCIDENT  = 1; break;
+            case 'F': FLY       = 1; break;
+            case 'c': C51       = 1; break;
+            default:                 break;
         }
     }
 }
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
     scrollok(stdscr, FALSE);
 
     for (x = COLS - 1; ; --x) {
-        if (LOGO == 1) {
+        if (LOGO >= 1) {
             if (add_sl(x) == ERR) break;
         }
         else if (C51 == 1) {
