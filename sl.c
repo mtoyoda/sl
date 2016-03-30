@@ -151,7 +151,7 @@ int add_sl(int x)
         add_man(y + 1, x + 14);
         yoffset = 0;
         for (int j = 0; j <= LOGO; j++) {
-            yoffset = 2 * FLY + 2 * j * FLY;
+            yoffset = FLY * (2 + 2 * j);
             add_man(y + 1 + py2 + yoffset, x + 45 + offset * j);
             add_man(y + 1 + py2 + yoffset, x + 53 + offset * j);
         }
