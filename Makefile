@@ -4,7 +4,7 @@
 #	Copyright 1993, 1998, 2014, 2016
 #                 Toyoda Masashi
 #		  (mtoyoda@acm.org)
-#				  Tomsterley
+#		  Tomsterley
 #		  (tommynaj@gmail.com)
 #	Last Modified: 2016/06/19
 #==========================================
