@@ -1,13 +1,16 @@
 #==========================================
 #    Makefile: makefile for sl 5.1
-#	Copyright 1993, 1998, 2014
+#	Optimized for PDCurses by tomsterley
+#	Copyright 1993, 1998, 2014, 2016
 #                 Toyoda Masashi
 #		  (mtoyoda@acm.org)
-#	Last Modified: 2014/03/31
+#				  Tomsterley
+#		  (tommynaj@gmail.com)
+#	Last Modified: 2016/06/19
 #==========================================
 
 CC=gcc
 CFLAGS=-O
 
 sl: sl.c sl.h
-	$(CC) $(CFLAGS) -o sl sl.c -lncurses
+	$(CC) $(CFLAGS) -o sl sl.c -lpdcurses
