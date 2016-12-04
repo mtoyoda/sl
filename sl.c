@@ -53,6 +53,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int LOOP      = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -65,7 +66,7 @@ int my_mvaddstr(int y, int x, char *str)
 
 void option(char *str)
 {
-    extern int ACCIDENT, FLY, LONG;
+    extern int ACCIDENT, FLY, LONG, LOOP;
 
     while (*str != '\0') {
         switch (*str++) {
@@ -73,6 +74,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'L': LOOP     = 1; break;
             default:                break;
         }
     }
@@ -94,21 +96,22 @@ int main(int argc, char *argv[])
     nodelay(stdscr, TRUE);
     leaveok(stdscr, TRUE);
     scrollok(stdscr, FALSE);
-
-    for (x = COLS - 1; ; --x) {
-        if (LOGO == 1) {
-            if (add_sl(x) == ERR) break;
+    do {
+        for (x = COLS - 1; ; --x) {
+            if (LOGO == 1) {
+                if (add_sl(x) == ERR) break;
+            }
+            else if (C51 == 1) {
+                if (add_C51(x) == ERR) break;
+            }
+            else {
+                if (add_D51(x) == ERR) break;
+            }
+            getch();
+            refresh();
+            usleep(40000);
         }
-        else if (C51 == 1) {
-            if (add_C51(x) == ERR) break;
-        }
-        else {
-            if (add_D51(x) == ERR) break;
-        }
-        getch();
-        refresh();
-        usleep(40000);
-    }
+    } while (LOOP);
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
 }
