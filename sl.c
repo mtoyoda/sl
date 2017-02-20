@@ -33,7 +33,7 @@
 /*                                              by Toyoda Masashi 1992/12/14 */
 /* sl version 1.01 : Add more complex smoke.                                 */
 /*                                              by Toyoda Masashi 1992/12/14 */
-/* sl version 1.00 : SL runs vomitting out smoke.                            */
+/* sl version 1.00 : SL runs vomiting out smoke.                             */
 /*                                              by Toyoda Masashi 1992/12/11 */
 
 #include <curses.h>
