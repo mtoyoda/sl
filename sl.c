@@ -38,6 +38,7 @@
 
 #include <curses.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "sl.h"
 
@@ -111,6 +112,7 @@ int main(int argc, char *argv[])
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
+    return(EXIT_FAILURE);
 }
 
 
