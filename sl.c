@@ -3,7 +3,7 @@
  *        Copyright 1993,1998,2014
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
- *        Last Modified: 2014/06/03
+ *        Last Modified: 2015/10/07
  *========================================
  */
 /* sl version 5.02 : Fix compiler warnings.                                  */
@@ -46,7 +46,7 @@ void add_man(int y, int x);
 int add_C51(int x);
 int add_D51(int x);
 int add_sl(int x);
-void option(char *str);
+void option(int argc, char * const argv[]);
 int my_mvaddstr(int y, int x, char *str);
 
 int ACCIDENT  = 0;
@@ -63,12 +63,13 @@ int my_mvaddstr(int y, int x, char *str)
     return OK;
 }
 
-void option(char *str)
+void option(int argc, char * const argv[])
 {
+    int c;
     extern int ACCIDENT, FLY, LONG;
 
-    while (*str != '\0') {
-        switch (*str++) {
+    while ((c = getopt(argc, argv, "aFlc")) != -1) {
+        switch (c) {
             case 'a': ACCIDENT = 1; break;
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
@@ -82,11 +83,8 @@ int main(int argc, char *argv[])
 {
     int x, i;
 
-    for (i = 1; i < argc; ++i) {
-        if (*argv[i] == '-') {
-            option(argv[i] + 1);
-        }
-    }
+    option(argc, argv);
+
     initscr();
     signal(SIGINT, SIG_IGN);
     noecho();
