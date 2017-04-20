@@ -1,11 +1,13 @@
 /*========================================
- *    sl.c: SL version 5.02
- *        Copyright 1993,1998,2014
+ *    sl.c: SL version 5.03
+ *        Copyright 1993,1998,2014-2015
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
  *        Last Modified: 2014/06/03
  *========================================
  */
+/* sl version 5.03 : Fix some more compiler warnings.                        */
+/*                                              by Ryan Jacobs    2015/01/19 */
 /* sl version 5.02 : Fix compiler warnings.                                  */
 /*                                              by Jeff Schwab    2014/06/03 */
 /* sl version 5.01 : removed cursor and handling of IO                       */
@@ -65,7 +67,7 @@ int my_mvaddstr(int y, int x, char *str)
 
 void option(char *str)
 {
-    extern int ACCIDENT, FLY, LONG;
+    extern int ACCIDENT, LOGO, FLY, C51;
 
     while (*str != '\0') {
         switch (*str++) {
@@ -111,6 +113,8 @@ int main(int argc, char *argv[])
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
+
+    return 0;
 }
 
 
