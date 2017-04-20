@@ -45,6 +45,8 @@
 
 void add_smoke(int y, int x);
 void add_man(int y, int x);
+void add_fdancer(int y, int x);
+void add_mdancer(int y, int x);
 int add_C51(int x);
 int add_D51(int x);
 int add_sl(int x);
@@ -55,6 +57,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int DANCE     = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -75,6 +78,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'd': DANCE    = 1; break;
             default:                break;
         }
     }
@@ -154,6 +158,13 @@ int add_sl(int x)
         add_man(y + 1 + py2, x + 45);  add_man(y + 1 + py2, x + 53);
         add_man(y + 1 + py3, x + 66);  add_man(y + 1 + py3, x + 74);
     }
+    if (DANCE == 1 && ACCIDENT == 0 && FLY == 0) {
+        add_mdancer(y - 2, x + 21);
+       add_fdancer(y + py2 - 2, x + 45); 
+       add_fdancer(y + py2 - 2, x + 50); add_fdancer(y + py2 - 2, x + 55);
+       add_mdancer(y + py3 - 2, x + 66); 
+       add_mdancer(y + py3 - 2, x + 71); add_mdancer(y + py3 - 2, x + 76);
+    }
     add_smoke(y - 1, x + LOGOFUNNEL);
     return OK;
 }
@@ -195,6 +206,9 @@ int add_D51(int x)
         add_man(y + 2, x + 43);
         add_man(y + 2, x + 47);
     }
+     if (DANCE == 1 && ACCIDENT ==0 && FLY == 0) {
+       add_mdancer(y - 2, x + 43); add_fdancer(y - 2, x + 48);
+        }
     add_smoke(y - 1, x + D51FUNNEL);
     return OK;
 }
@@ -235,6 +249,9 @@ int add_C51(int x)
         add_man(y + 3, x + 45);
         add_man(y + 3, x + 49);
     }
+    if (DANCE == 1 && ACCIDENT ==0 && FLY == 0) {
+       add_mdancer(y - 1, x + 45); add_fdancer(y - 1, x + 50);
+    }
     add_smoke(y - 1, x + C51FUNNEL);
     return OK;
 }
@@ -248,6 +265,30 @@ void add_man(int y, int x)
     for (i = 0; i < 2; ++i) {
         my_mvaddstr(y + i, x, man[(LOGOLENGTH + x) / 12 % 2][i]);
     }
+}
+void add_fdancer(int y, int x)
+{
+   static char *fdancer[2][3] = {{"\\\\0", "/\\", "|\\"}, {"0//", "/\\", "/|"}};
+   static char *Efdancer[2][3] = {{"   ", "  ", "  "}, {"   ", "  ", "  "}};
+   int i;
+
+   for (i = 0; i<3; ++i) {
+        my_mvaddstr(y+i, x + 1, Efdancer[(LOGOLENGTH + x) / 12 %2][i]);
+        my_mvaddstr(y+i, x, fdancer[(LOGOLENGTH + x) / 12 %2][i]);
+   }
+}
+
+void add_mdancer(int y, int x)
+{
+   static char *mdancer[3][3] = {{"_O_", " #", "/\\"}, {"(0)", " #", "/\\"}, {"(O_", " #", "/\\"}};
+   static char *Emdancer[3][3] = {{"   ", "  ", "  "}, {"   ", "  ", "  "}, {"   ", "  ", "  "}};
+   int i;
+
+   for (i = 0; i<3; ++i) {
+         my_mvaddstr(y+i, x + 1, Emdancer[(LOGOLENGTH + x) / 12 %3][i]);
+         my_mvaddstr(y+i, x, mdancer[(LOGOLENGTH + x) / 12 %3][i]);
+
+   }
 }
 
 
