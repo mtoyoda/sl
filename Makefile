@@ -6,8 +6,8 @@
 #	Last Modified: 2014/03/31
 #==========================================
 
-CC=gcc
-CFLAGS=-O
+CC?=gcc
+CFLAGS?=-O
 
 sl: sl.c sl.h
 	$(CC) $(CFLAGS) -o sl sl.c -lncurses
