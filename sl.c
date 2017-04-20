@@ -71,11 +71,11 @@ void option(char *str)
 
     while (*str != '\0') {
         switch (*str++) {
-            case 'a': ACCIDENT = 1; break;
-            case 'F': FLY      = 1; break;
-            case 'l': LOGO     = 1; break;
-            case 'c': C51      = 1; break;
-            default:                break;
+            case 'l': LOGO     += 1; break;
+            case 'a': ACCIDENT  = 1; break;
+            case 'F': FLY       = 1; break;
+            case 'c': C51       = 1; break;
+            default:                 break;
         }
     }
 }
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
     scrollok(stdscr, FALSE);
 
     for (x = COLS - 1; ; --x) {
-        if (LOGO == 1) {
+        if (LOGO >= 1) {
             if (add_sl(x) == ERR) break;
         }
         else if (C51 == 1) {
@@ -134,7 +134,7 @@ int add_sl(int x)
     static char *car[LOGOHEIGHT + 1]
         = {LCAR1, LCAR2, LCAR3, LCAR4, LCAR5, LCAR6, DELLN};
 
-    int i, y, py1 = 0, py2 = 0, py3 = 0;
+    int i, y, py1 = 0, py2 = 0, py3 = 0, offset = 21, yoffset = 0;
 
     if (x < - LOGOLENGTH)  return ERR;
     y = LINES / 2 - 3;
@@ -146,13 +146,19 @@ int add_sl(int x)
     for (i = 0; i <= LOGOHEIGHT; ++i) {
         my_mvaddstr(y + i, x, sl[(LOGOLENGTH + x) / 3 % LOGOPATTERNS][i]);
         my_mvaddstr(y + i + py1, x + 21, coal[i]);
-        my_mvaddstr(y + i + py2, x + 42, car[i]);
-        my_mvaddstr(y + i + py3, x + 63, car[i]);
+        for (int j = 0; j <= LOGO; j++) {
+            yoffset = 2 * j * FLY;
+            my_mvaddstr(y + i + py3 +  yoffset, x + 42 + offset * j, car[i]);
+        }
     }
     if (ACCIDENT == 1) {
         add_man(y + 1, x + 14);
-        add_man(y + 1 + py2, x + 45);  add_man(y + 1 + py2, x + 53);
-        add_man(y + 1 + py3, x + 66);  add_man(y + 1 + py3, x + 74);
+        yoffset = 0;
+        for (int j = 0; j <= LOGO; j++) {
+            yoffset = FLY * (2 + 2 * j);
+            add_man(y + 1 + py2 + yoffset, x + 45 + offset * j);
+            add_man(y + 1 + py2 + yoffset, x + 53 + offset * j);
+        }
     }
     add_smoke(y - 1, x + LOGOFUNNEL);
     return OK;
