@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
         }
     }
     initscr();
+    signal(SIGQUIT, SIG_IGN);
     signal(SIGINT, SIG_IGN);
     noecho();
     curs_set(0);
