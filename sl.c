@@ -38,6 +38,7 @@
 /* sl version 1.00 : SL runs vomiting out smoke.                             */
 /*                                              by Toyoda Masashi 1992/12/11 */
 
+#include <ctype.h>
 #include <curses.h>
 #include <signal.h>
 #include <unistd.h>
@@ -55,6 +56,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int NUMBER    = -1;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -70,13 +72,17 @@ void option(char *str)
     extern int ACCIDENT, LOGO, FLY, C51;
 
     while (*str != '\0') {
-        switch (*str++) {
+        switch (*str) {
             case 'a': ACCIDENT = 1; break;
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
-            default:                break;
+            default:
+              if (isdigit(*str))
+                  NUMBER = (NUMBER < 0 ? 0 : NUMBER*10) + *str - '0';
+              break;
         }
+        str++;
     }
 }
 
@@ -134,25 +140,30 @@ int add_sl(int x)
     static char *car[LOGOHEIGHT + 1]
         = {LCAR1, LCAR2, LCAR3, LCAR4, LCAR5, LCAR6, DELLN};
 
-    int i, y, py1 = 0, py2 = 0, py3 = 0;
+    if (NUMBER < 0)
+        NUMBER = 2;
+
+    int i, j, y, py = 0;
+    int LOGOLENGTH = 42 + 21*NUMBER;
 
     if (x < - LOGOLENGTH)  return ERR;
     y = LINES / 2 - 3;
 
     if (FLY == 1) {
         y = (x / 6) + LINES - (COLS / 6) - LOGOHEIGHT;
-        py1 = 2;  py2 = 4;  py3 = 6;
+        py = 2;
     }
     for (i = 0; i <= LOGOHEIGHT; ++i) {
         my_mvaddstr(y + i, x, sl[(LOGOLENGTH + x) / 3 % LOGOPATTERNS][i]);
-        my_mvaddstr(y + i + py1, x + 21, coal[i]);
-        my_mvaddstr(y + i + py2, x + 42, car[i]);
-        my_mvaddstr(y + i + py3, x + 63, car[i]);
+        my_mvaddstr(y + i + py, x + 21, coal[i]);
+        for (j = 2; j <= NUMBER + 1; ++j)
+            my_mvaddstr(y + i + py*j, x + 21*j, car[i]);
     }
     if (ACCIDENT == 1) {
         add_man(y + 1, x + 14);
-        add_man(y + 1 + py2, x + 45);  add_man(y + 1 + py2, x + 53);
-        add_man(y + 1 + py3, x + 66);  add_man(y + 1 + py3, x + 74);
+        for (j = 2; j <= NUMBER + 1; ++j) {
+            add_man(y + 1 + py*j, x + 3 + 21*j);  add_man(y + 1 + py*j, x + 11 + 21*j);
+        }
     }
     add_smoke(y - 1, x + LOGOFUNNEL);
     return OK;
@@ -178,7 +189,11 @@ int add_D51(int x)
         = {COAL01, COAL02, COAL03, COAL04, COAL05,
            COAL06, COAL07, COAL08, COAL09, COAL10, COALDEL};
 
-    int y, i, dy = 0;
+    if (NUMBER < 0)
+        NUMBER = 1;
+
+    int y, i, j, dy = 0;
+    int D51LENGTH = 54 + 29*NUMBER;
 
     if (x < - D51LENGTH)  return ERR;
     y = LINES / 2 - 5;
@@ -189,7 +204,8 @@ int add_D51(int x)
     }
     for (i = 0; i <= D51HEIGHT; ++i) {
         my_mvaddstr(y + i, x, d51[(D51LENGTH + x) % D51PATTERNS][i]);
-        my_mvaddstr(y + i + dy, x + 53, coal[i]);
+        for (j = 1; j <= NUMBER; ++j)
+            my_mvaddstr(y + i + dy*j, x + 24 + 29*j, coal[i]);
     }
     if (ACCIDENT == 1) {
         add_man(y + 2, x + 43);
@@ -218,7 +234,11 @@ int add_C51(int x)
         = {COALDEL, COAL01, COAL02, COAL03, COAL04, COAL05,
            COAL06, COAL07, COAL08, COAL09, COAL10, COALDEL};
 
-    int y, i, dy = 0;
+    if (NUMBER < 0)
+        NUMBER = 1;
+
+    int y, i, j, dy = 0;
+    int C51LENGTH = 58 + 29*NUMBER;
 
     if (x < - C51LENGTH)  return ERR;
     y = LINES / 2 - 5;
@@ -229,7 +249,8 @@ int add_C51(int x)
     }
     for (i = 0; i <= C51HEIGHT; ++i) {
         my_mvaddstr(y + i, x, c51[(C51LENGTH + x) % C51PATTERNS][i]);
-        my_mvaddstr(y + i + dy, x + 55, coal[i]);
+        for (j = 1; j <= NUMBER; j++)
+            my_mvaddstr(y + i + dy*j, x + 26 + 29*j, coal[i]);
     }
     if (ACCIDENT == 1) {
         add_man(y + 3, x + 45);
@@ -246,7 +267,7 @@ void add_man(int y, int x)
     int i;
 
     for (i = 0; i < 2; ++i) {
-        my_mvaddstr(y + i, x, man[(LOGOLENGTH + x) / 12 % 2][i]);
+        my_mvaddstr(y + i, x, man[(42 + 21*NUMBER + x) / 12 % 2][i]);
     }
 }
 
