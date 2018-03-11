@@ -53,11 +53,12 @@ void option(char *str);
 int my_mvaddstr(int y, int x, char *str);
 
 int ACCIDENT  = 0;
-int LOGO      = 0;
-int FLY       = 0;
 int C51       = 0;
 int DISCO     = 0;
 int SIGNAL    = 1;
+int FLY       = 0;
+int LOGO      = 0;
+int WIND      = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -70,16 +71,17 @@ int my_mvaddstr(int y, int x, char *str)
 
 void option(char *str)
 {
-    extern int ACCIDENT, LOGO, FLY, C51, DISCO, SIGNAL;
+    extern int ACCIDENT, C51, DISCO, SIGNAL, FLY, LOGO, WIND;
 
     while (*str != '\0') {
         switch (*str++) {
             case 'a': ACCIDENT = 1; break;
-            case 'F': FLY      = 1; break;
-            case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
             case 'd': DISCO    = 1; break;
             case 'e': SIGNAL   = 0; break;
+            case 'F': FLY      = 1; break;
+            case 'l': LOGO     = 1; break;
+            case 'w': WIND     = 200; break;
             default:                break;
         }
     }
@@ -121,7 +123,7 @@ int main(int argc, char *argv[])
         }
         getch();
         refresh();
-        usleep(40000);
+        usleep(40000 - (WIND * 100));
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
