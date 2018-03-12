@@ -7,7 +7,7 @@
 #==========================================
 
 CC=gcc
-CFLAGS=-O -Wall
+CFLAGS=-O3 -Wall
 
 all: sl
 
