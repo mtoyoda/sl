@@ -1,4 +1,4 @@
-SL(1): Cure your bad habit of mistyping
+SL/ABC: Cure your bad habit of mistyping, and remember to Always Be Coding
 =======================================
 
 SL (Steam Locomotive) runs across your terminal when you type "sl" as
