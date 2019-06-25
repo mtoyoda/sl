@@ -47,6 +47,7 @@ void add_smoke(int y, int x);
 void add_man(int y, int x);
 int add_C51(int x);
 int add_D51(int x);
+int add_TGV(int x);
 int add_sl(int x);
 void option(char *str);
 int my_mvaddstr(int y, int x, char *str);
@@ -55,6 +56,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int TGV       = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -75,6 +77,7 @@ void option(char *str)
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'G': TGV      = 1; break;
             default:                break;
         }
     }
@@ -96,6 +99,18 @@ int main(int argc, char *argv[])
     nodelay(stdscr, TRUE);
     leaveok(stdscr, TRUE);
     scrollok(stdscr, FALSE);
+/*
+ *   first Non prototype TGV was orange
+ */
+    if (TGV == 1) {
+	if (has_colors()) {
+	    start_color();
+	    init_pair(1, COLOR_WHITE, COLOR_BLACK);
+	    init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+	} else {
+	    TGV = 0;
+	}
+    }
 
     for (x = COLS - 1; ; --x) {
         if (LOGO == 1) {
@@ -104,12 +119,18 @@ int main(int argc, char *argv[])
         else if (C51 == 1) {
             if (add_C51(x) == ERR) break;
         }
+        else if (TGV == 1) {
+            if (add_TGV(x) == ERR) break;
+        }
         else {
             if (add_D51(x) == ERR) break;
         }
-        getch();
-        refresh();
-        usleep(40000);
+	getch();
+	refresh();
+	if (TGV)
+	  usleep(20000);
+	else
+	  usleep(40000);
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
@@ -196,6 +217,43 @@ int add_D51(int x)
         add_man(y + 2, x + 47);
     }
     add_smoke(y - 1, x + D51FUNNEL);
+    return OK;
+}
+
+int add_TGV(int x)
+{
+    static char *tgv[TGVPATTERNS][TGVHEIGHT + 1]
+      = {{TGVSTR0, TGVSTR1, TGVSTR2, TGVSTR3, TGVSTR4, TGVSTR5, TGVSTR6,
+            TGVWHL1, TGVDEL},
+           {TGVSTR0, TGVSTR1, TGVSTR2, TGVSTR3, TGVSTR4, TGVSTR5, TGVSTR6,
+            TGVWHL2, TGVDEL}};
+    static char *vagoon[TGVHEIGHT + 1]
+        = {TGVVAG0, TGVVAG1, TGVVAG2, TGVVAG3, TGVVAG4, TGVVAG5, TGVVAG6, TGVVAG7, TGVDEL};
+
+    int y, i, dy = 0;
+
+    if (x < - TGVLENGTH)  return ERR;
+    y = LINES / 2 - 5;
+
+    if (FLY == 1) {
+        y = (x / 7) + LINES - (COLS / 7) - TGVHEIGHT;
+        dy = 1;
+    }
+    attron(COLOR_PAIR(2));
+    for (i = 0; i <= TGVHEIGHT; ++i) {
+        my_mvaddstr(y + i, x, tgv[((TGVLENGTH + x) / 2) % TGVPATTERNS][i]);
+        my_mvaddstr(y + i + dy, x + 55, vagoon[i]);
+    }
+    attroff(COLOR_PAIR(2));
+
+    if (ACCIDENT == 1) {
+        add_man(y + 2, x + 14);
+
+        add_man(y + dy + 3, x + 85);
+        add_man(y + dy + 3, x + 90);
+        add_man(y + dy + 3, x + 95);
+        add_man(y + dy + 3, x + 100);
+    }
     return OK;
 }
 
