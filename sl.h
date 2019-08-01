@@ -148,3 +148,20 @@
 #define C51WH12 "------'|oOo|=[]=-      ||      ||      |  ||=======_|__"
 #define C51WH13 "/~\\____|___|/~\\_|  O=======O=======O   |__|+-/~\\_|     "
 #define C51WH14 "\\_/         \\_/  \\____/  \\____/  \\____/      \\_/       "
+
+#define COWPATTERNS 3
+#define COWHEIGHT 5
+#define COWLENGTH 20
+
+#define COWSTR1 ",__,                                                   "
+#define COWSTR2 "(oo)\\|    |___                                        "
+#define COWSTR3 "(__)\\|    |   )\\_                                    "
+
+#define COWPW11 "     |    |_w |  \\                                     "
+#define COWPW12 "     |    |  ||   *                                    "
+
+#define COWPW21 "     <    |_w |   \\                                    "
+#define COWPW22 "      \\  |  |\\  *                                    "
+
+#define COWPW31 "     |    <_w   | \\                                    "
+#define COWPW32 "     |     \\ \\|  *                                   "
