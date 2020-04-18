@@ -3,7 +3,7 @@
  *        Copyright 1993,1998,2014-2015
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
- *        Last Modified: 2014/06/03
+ *        Last Modified: 2020/04/18
  *========================================
  */
 /* sl verdion 6.00 : Added -t(rack) and -C(olors) options.                   */
