@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
         use_default_colors();
     }
     signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
