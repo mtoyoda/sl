@@ -6,6 +6,8 @@
  *        Last Modified: 2014/06/03
  *========================================
  */
+/* sl verdion 6.00 : Added -t(rack) and -C(olors) options.                   */
+/*                                              by Finn Barber    2020/4/18  */ 
 /* sl version 5.03 : Fix some more compiler warnings.                        */
 /*                                              by Ryan Jacobs    2015/01/19 */
 /* sl version 5.02 : Fix compiler warnings.                                  */
@@ -45,6 +47,7 @@
 
 void add_smoke(int y, int x);
 void add_man(int y, int x);
+void add_track(int y);
 int add_C51(int x);
 int add_D51(int x);
 int add_sl(int x);
@@ -55,6 +58,8 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int COLORS    = 0;
+int TRACK     = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -72,9 +77,13 @@ void option(char *str)
     while (*str != '\0') {
         switch (*str++) {
             case 'a': ACCIDENT = 1; break;
-            case 'F': FLY      = 1; break;
+            case 'F': FLY      = 1;
+                      TRACK    = 0; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
+            case 'C': COLORS   = 1; break;
+            case 't': TRACK    = 1;
+                      FLY      = 0; break;
             default:                break;
         }
     }
@@ -89,7 +98,13 @@ int main(int argc, char *argv[])
             option(argv[i] + 1);
         }
     }
+
     initscr();
+
+    if (COLORS) {
+        start_color();
+        use_default_colors();
+    }
     signal(SIGINT, SIG_IGN);
     noecho();
     curs_set(0);
@@ -143,21 +158,42 @@ int add_sl(int x)
         y = (x / 6) + LINES - (COLS / 6) - LOGOHEIGHT;
         py1 = 2;  py2 = 4;  py3 = 6;
     }
+
+    if (COLORS) {
+        init_pair(1, COLOR_RED, -1);
+        init_pair(2, COLOR_YELLOW, -1);
+        init_pair(3, COLOR_GREEN, -1);
+        attron(COLOR_PAIR(1));
+    }
+
     for (i = 0; i <= LOGOHEIGHT; ++i) {
         my_mvaddstr(y + i, x, sl[(LOGOLENGTH + x) / 3 % LOGOPATTERNS][i]);
+    }
+
+    if (COLORS) attron(COLOR_PAIR(2));
+
+    for (i = 0; i <= LOGOHEIGHT; ++i) {
         my_mvaddstr(y + i + py1, x + 21, coal[i]);
+    }
+
+    if (COLORS) attron(COLOR_PAIR(3));
+
+    for (i = 0; i <= LOGOHEIGHT; ++i) {
         my_mvaddstr(y + i + py2, x + 42, car[i]);
         my_mvaddstr(y + i + py3, x + 63, car[i]);
     }
+
+    if (COLORS) attroff(COLOR_PAIR(3));
+
     if (ACCIDENT == 1) {
         add_man(y + 1, x + 14);
         add_man(y + 1 + py2, x + 45);  add_man(y + 1 + py2, x + 53);
         add_man(y + 1 + py3, x + 66);  add_man(y + 1 + py3, x + 74);
     }
+    if (TRACK) add_track(LOGOHEIGHT + y);
     add_smoke(y - 1, x + LOGOFUNNEL);
     return OK;
 }
-
 
 int add_D51(int x)
 {
@@ -187,14 +223,31 @@ int add_D51(int x)
         y = (x / 7) + LINES - (COLS / 7) - D51HEIGHT;
         dy = 1;
     }
+    if (COLORS) {
+        init_pair(1, COLOR_RED, -1);
+        init_pair(2, COLOR_YELLOW, -1);
+        attron(COLOR_PAIR(1));
+    }
+
     for (i = 0; i <= D51HEIGHT; ++i) {
         my_mvaddstr(y + i, x, d51[(D51LENGTH + x) % D51PATTERNS][i]);
+    }
+
+    if (COLORS) attron(COLOR_PAIR(2));
+
+    for (i = 0; i <= D51HEIGHT; ++i) {
         my_mvaddstr(y + i + dy, x + 53, coal[i]);
+    }
+
+    if (COLORS) attroff(COLOR_PAIR(2));
+
+    for (i = 0; i <= D51HEIGHT; ++i) {
     }
     if (ACCIDENT == 1) {
         add_man(y + 2, x + 43);
         add_man(y + 2, x + 47);
     }
+    if (TRACK) add_track(D51HEIGHT + y);
     add_smoke(y - 1, x + D51FUNNEL);
     return OK;
 }
@@ -227,14 +280,30 @@ int add_C51(int x)
         y = (x / 7) + LINES - (COLS / 7) - C51HEIGHT;
         dy = 1;
     }
+
+    if (COLORS) {
+        init_pair(1, COLOR_RED, -1);
+        init_pair(2, COLOR_YELLOW, -1);
+        attron(COLOR_PAIR(1));
+    }
+
     for (i = 0; i <= C51HEIGHT; ++i) {
         my_mvaddstr(y + i, x, c51[(C51LENGTH + x) % C51PATTERNS][i]);
+    }
+
+    if (COLORS) attron(COLOR_PAIR(2));
+
+    for (i = 0; i <= C51HEIGHT; ++i) {
         my_mvaddstr(y + i + dy, x + 55, coal[i]);
     }
+
+    if (COLORS) attroff(COLOR_PAIR(2));
+
     if (ACCIDENT == 1) {
         add_man(y + 3, x + 45);
         add_man(y + 3, x + 49);
     }
+    if (TRACK) add_track(C51HEIGHT + y);
     add_smoke(y - 1, x + C51FUNNEL);
     return OK;
 }
@@ -291,5 +360,12 @@ void add_smoke(int y, int x)
         S[sum].y = y;    S[sum].x = x;
         S[sum].ptrn = 0; S[sum].kind = sum % 2;
         sum ++;
+    }
+}
+
+void add_track(int y) {
+    for (int x = 0; x < COLS; ++x) {
+        if (x % 8 == 0) mvaddch(y, x, '#');
+        else mvaddch(y, x, '=');
     }
 }
