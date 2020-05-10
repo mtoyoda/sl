@@ -12,3 +12,7 @@ add_executable(sl sl.c sl.h)
 target_link_libraries(sl ${NCURSES_LIBRARIES})
 target_include_directories(sl PUBLIC ${NCURSES_INCLUDE_DIRS})
 target_compile_options(sl PUBLIC ${NCURSES_CFLAGS_OTHER})
+
+install(TARGETS sl
+        RUNTIME DESTINATION bin
+        BUNDLE DESTINATION bin)
