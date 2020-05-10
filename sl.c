@@ -38,8 +38,12 @@
 /* sl version 1.00 : SL runs vomiting out smoke.                             */
 /*                                              by Toyoda Masashi 1992/12/11 */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <curses.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include <unistd.h>
 #include "sl.h"
 
@@ -158,6 +162,9 @@ int add_sl(int x)
     return OK;
 }
 
+int no_dot_file_filter(const struct dirent *entry) {
+    return '.' != entry->d_name[0];
+}
 
 int add_D51(int x)
 {
@@ -174,23 +181,45 @@ int add_D51(int x)
             D51WHL51, D51WHL52, D51WHL53, D51DEL},
            {D51STR1, D51STR2, D51STR3, D51STR4, D51STR5, D51STR6, D51STR7,
             D51WHL61, D51WHL62, D51WHL63, D51DEL}};
+    
     static char *coal[D51HEIGHT + 1]
         = {COAL01, COAL02, COAL03, COAL04, COAL05,
            COAL06, COAL07, COAL08, COAL09, COAL10, COALDEL};
+    
+    static char *car[D51HEIGHT + 1]
+        = {CAR01, CAR02, CAR03, CAR04, CAR05,
+           CAR06, CAR07, CAR08, CAR09, CAR10, COALDEL};
 
-    int y, i, dy = 0;
+    int y, i, j, cars, dy = 0;
+    struct dirent **namelist;
+    char carName[32];
 
-    if (x < - D51LENGTH)  return ERR;
+    cars = scandir(".", &namelist, no_dot_file_filter, alphasort);
+    if (x < - (D51LENGTH + ((cars > 0) ? cars * 31 : 0)))  return ERR;
     y = LINES / 2 - 5;
 
     if (FLY == 1) {
         y = (x / 7) + LINES - (COLS / 7) - D51HEIGHT;
         dy = 1;
     }
+
     for (i = 0; i <= D51HEIGHT; ++i) {
-        my_mvaddstr(y + i, x, d51[(D51LENGTH + x) % D51PATTERNS][i]);
-        my_mvaddstr(y + i + dy, x + 53, coal[i]);
+        if (D51LENGTH + x > 0) {
+            my_mvaddstr(y + i, x, d51[(D51LENGTH + x) % D51PATTERNS][i]);
+            my_mvaddstr(y + i + dy, x + 53, coal[i]);
+        }
+        for (j = 0; j < cars; ++j) {
+            snprintf(carName, 32, car[i], namelist[j]->d_name);
+            my_mvaddstr(y + i + dy, x + 53 + 29 * (j + 1), carName);
+        }
     }
+
+    for (j = 0; j < cars; ++j) {
+        free(namelist[j]);
+    }
+
+    free(namelist);
+
     if (ACCIDENT == 1) {
         add_man(y + 2, x + 43);
         add_man(y + 2, x + 47);
