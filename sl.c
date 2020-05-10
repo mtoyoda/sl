@@ -56,6 +56,17 @@ int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
 
+void sighandler(int signo)
+{
+    switch(signo) {
+        case SIGTSTP:
+            break;
+        case SIGINT:
+            break;
+    }
+}
+
+
 int my_mvaddstr(int y, int x, char *str)
 {
     for ( ; x < 0; ++x, ++str)
@@ -90,7 +101,8 @@ int main(int argc, char *argv[])
         }
     }
     initscr();
-    signal(SIGINT, SIG_IGN);
+    signal(SIGINT, sighandler);
+    signal(SIGTSTP, sighandler);
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
