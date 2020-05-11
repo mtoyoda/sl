@@ -59,12 +59,12 @@
 
 #define COALDEL "                              "
 
-#define CAR01 "                              "
-#define CAR02 "       ____        ____       "
-#define CAR03 "   ___|    |______|    |___   "
+#define CAR01 "       ____        ____       "
+#define CAR02 "   ___|    |______|    |___   "
+#define CAR03 "  |                        |  "
 #define CAR04 "  |                        |  "
-#define CAR05 "  |                        |  "
-#define CAR06 "  | %-22.22s |  "
+#define CAR05 "  | %-22.22s |  "
+#define CAR06 "  |                        |  "
 #define CAR07 "__|________________________|_ "
 #define CAR08 "|__________________________|_ "
 #define CAR09 "   |_D__D__D_|  |_D__D__D_|   "
