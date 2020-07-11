@@ -209,8 +209,10 @@ int add_D51(int x)
             my_mvaddstr(y + i + dy, x + 53, coal[i]);
         }
         for (j = 0; j < cars; ++j) {
-            snprintf(carName, 32, car[i], namelist[j]->d_name);
-            my_mvaddstr(y + i + dy, x + 53 + 29 * (j + 1), carName);
+            if (D51LENGTH + x + 32 * (j + 1) > 0) {
+                snprintf(carName, 32, car[i], namelist[j]->d_name);
+                my_mvaddstr(y + i + dy, x + 53 + 29 * (j + 1), carName);
+            }
         }
     }
 
