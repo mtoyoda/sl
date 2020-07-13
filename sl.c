@@ -190,7 +190,7 @@ int add_D51(int x)
         = {CAR01, CAR02, CAR03, CAR04, CAR05,
            CAR06, CAR07, CAR08, CAR09, CAR10, COALDEL};
 
-    int y, i, j, cars, dy = 0;
+    int y, i, j, cars, pos, dy = 0;
     struct dirent **namelist;
     char carName[32];
 
@@ -209,10 +209,15 @@ int add_D51(int x)
             my_mvaddstr(y + i + dy, x + 53, coal[i]);
         }
         for (j = 0; j < cars; ++j) {
-            if (D51LENGTH + x + 32 * (j + 1) > 0) {
-                snprintf(carName, 32, car[i], namelist[j]->d_name);
-                my_mvaddstr(y + i + dy, x + 53 + 29 * (j + 1), carName);
+            pos = D51LENGTH + x + 29 * (j + 1);
+            if (pos < 0) {
+                continue;
+            } else if (pos > COLS + D51LENGTH) {
+                break;
             }
+
+            snprintf(carName, 32, car[i], namelist[j]->d_name);
+            my_mvaddstr(y + i + dy, x + 53 + 29 * (j + 1), carName);
         }
     }
 
