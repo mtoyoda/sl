@@ -43,8 +43,8 @@
 #include <curses.h>
 #include <signal.h>
 #include <sys/types.h>
-#include <dirent.h>
 #include <unistd.h>
+#include "scandir.h"
 #include "sl.h"
 
 void add_smoke(int y, int x);
