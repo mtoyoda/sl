@@ -43,8 +43,16 @@
 #include <curses.h>
 #include <signal.h>
 #include <sys/types.h>
-#include <unistd.h>
+#ifdef WIN32
 #include "scandir.h"
+#include <windows.h>
+inline int usleep(int micro) {
+    Sleep(micro / 1000);
+    return 0;
+}
+#else
+#include <unistd.h>
+#endif
 #include "sl.h"
 
 void add_smoke(int y, int x);
