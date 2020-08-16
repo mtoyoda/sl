@@ -44,14 +44,19 @@
 #include <signal.h>
 #include <sys/types.h>
 #ifdef WIN32
+
 #include "scandir.h"
 #include <windows.h>
 inline int usleep(int micro) {
     Sleep(micro / 1000);
     return 0;
 }
+
 #else
+
+#include <dirent.h>
 #include <unistd.h>
+
 #endif
 #include "sl.h"
 
