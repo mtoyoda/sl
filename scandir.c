@@ -43,7 +43,8 @@ int scandir(const char *dirp, struct dirent ***namelist, filter_t filter, compar
     find = FindFirstFileA(dirstr, &data);
     if (INVALID_HANDLE_VALUE == find)
     {
-        return 0;
+        count = 0;
+        goto Error;
     }
 
     do
@@ -74,6 +75,7 @@ int scandir(const char *dirp, struct dirent ***namelist, filter_t filter, compar
     results = malloc(count * sizeof(struct dirent *));
     if (!results)
     {
+        count = 0;
         goto Error;
     }
 
@@ -93,7 +95,11 @@ int scandir(const char *dirp, struct dirent ***namelist, filter_t filter, compar
     results = NULL;
 
 Error:
+    FindClose(find);
+
+    free(dirstr);
     free(results);
+    free(node.entry);
 
     ptr = node.next;
     while (ptr)
