@@ -42,7 +42,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
-#include <signal.h>
 #include <sys/types.h>
 #ifdef WIN32
 
@@ -110,7 +109,6 @@ int main(int argc, char *argv[])
         }
     }
     initscr();
-    signal(SIGINT, SIG_IGN);
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
