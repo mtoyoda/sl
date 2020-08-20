@@ -6,6 +6,7 @@
  *        Last Modified: 2014/06/03
  *========================================
  */
+/* sl version 5.04 : Add file cars as -f option.                  2020/08/19 */
 /* sl version 5.03 : Fix some more compiler warnings.                        */
 /*                                              by Ryan Jacobs    2015/01/19 */
 /* sl version 5.02 : Fix compiler warnings.                                  */
@@ -72,6 +73,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int FILE_CARS = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -84,14 +86,15 @@ int my_mvaddstr(int y, int x, char *str)
 
 void option(char *str)
 {
-    extern int ACCIDENT, LOGO, FLY, C51;
+    extern int ACCIDENT, LOGO, FLY, C51, FILE_CARS;
 
     while (*str != '\0') {
         switch (*str++) {
-            case 'a': ACCIDENT = 1; break;
-            case 'F': FLY      = 1; break;
-            case 'l': LOGO     = 1; break;
-            case 'c': C51      = 1; break;
+            case 'a': ACCIDENT  = 1; break;
+            case 'F': FLY       = 1; break;
+            case 'l': LOGO      = 1; break;
+            case 'c': C51       = 1; break;
+            case 'f': FILE_CARS = 1; break;
             default:                break;
         }
     }
@@ -204,10 +207,10 @@ int add_D51(int x)
            CAR06, CAR07, CAR08, CAR09, CAR10, COALDEL};
 
     int y, i, j, cars, pos, dy = 0;
-    struct dirent **namelist;
+    struct dirent **namelist = NULL;
     char carName[32];
 
-    cars = scandir(".", &namelist, no_dot_file_filter, alphasort);
+    cars = FILE_CARS ? scandir(".", &namelist, no_dot_file_filter, alphasort) : 0;
     if (x < - (D51LENGTH + ((cars > 0) ? cars * 31 : 0)))  return ERR;
     y = LINES / 2 - 5;
 
