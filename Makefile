@@ -3,18 +3,17 @@
 #	Copyright 1993, 1998, 2014
 #                 Toyoda Masashi
 #		  (mtoyoda@acm.org)
-#	Last Modified: 2014/03/31
+#	Last Modified: 2020/11/01
 #==========================================
 
-CC=gcc
-CFLAGS=-O -Wall
+build:
+	@gcc sl.c -o sl
 
-all: sl
+install:
+	@mv sl /usr/bin/sl
+	@chmod 777 /usr/bin/sl
+	@cp -p sl.1 /usr/share/man/man1
 
-sl: sl.c sl.h
-	$(CC) $(CFLAGS) -o sl sl.c -lncurses
-
-clean:
-	rm -f sl
-
-distclean: clean
+uninstall:
+	@rm /usr/bin/sl
+	@rm /usr/share/man/man1/neofetch.1*
