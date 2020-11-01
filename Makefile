@@ -12,6 +12,8 @@ build:
 install:
 	@mv sl /usr/bin/sl
 	@chmod 777 /usr/bin/sl
+	@cp -p sl.1 /usr/share/man/man1
 
 uninstall:
 	@rm /usr/bin/sl
+	@rm /usr/share/man/man1/neofetch.1*
