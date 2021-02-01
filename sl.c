@@ -1,11 +1,12 @@
 /*========================================
- *    sl.c: SL version 5.03
+ *    sl.c: SL version 5.05
  *        Copyright 1993,1998,2014-2015
  *                  Toyoda Masashi
  *                  (mtoyoda@acm.org)
- *        Last Modified: 2014/06/03
+ *        Last Modified: 2021/01/03
  *========================================
  */
+/* sl version 5.05 : Add support for unicode file names.          2021/01/03 */
 /* sl version 5.04 : Add file cars as -f option.                  2020/08/19 */
 /* sl version 5.03 : Fix some more compiler warnings.                        */
 /*                                              by Ryan Jacobs    2015/01/19 */
@@ -39,10 +40,12 @@
 /* sl version 1.00 : SL runs vomiting out smoke.                             */
 /*                                              by Toyoda Masashi 1992/12/11 */
 
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
 #include <sys/types.h>
+#include <wchar.h>
 #ifdef WIN32
 
 #include "scandir.h"
@@ -66,20 +69,26 @@ int add_C51(int x);
 int add_D51(int x);
 int add_sl(int x);
 void option(char *str);
-int my_mvaddstr(int y, int x, char *str);
+int my_mvaddstr(int y, int x, wchar_t *str);
 
 int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
-int FILE_CARS = 0;
+int FILE_CARS = 1;
 
-int my_mvaddstr(int y, int x, char *str)
+int my_mvaddstr(int y, int x, wchar_t *str)
 {
     for ( ; x < 0; ++x, ++str)
-        if (*str == '\0')  return ERR;
-    for ( ; *str != '\0'; ++str, ++x)
-        if (mvaddch(y, x, *str) == ERR)  return ERR;
+        if (*str == L'\0')  return ERR;
+    for ( ; *str != L'\0'; ++str, ++x)
+    {
+        wchar_t buff[2];
+        buff[0] = *str;
+        buff[1] = L'\0';
+        if (mvaddwstr(y, x, buff) == ERR)  return ERR;
+    }
+
     return OK;
 }
 
@@ -93,7 +102,7 @@ void option(char *str)
             case 'F': FLY       = 1; break;
             case 'l': LOGO      = 1; break;
             case 'c': C51       = 1; break;
-            case 'f': FILE_CARS = 1; break;
+            case 'f': FILE_CARS = 0; break;
             default:                break;
         }
     }
@@ -108,6 +117,7 @@ int main(int argc, char *argv[])
             option(argv[i] + 1);
         }
     }
+    setlocale(LC_ALL, "");
     initscr();
     noecho();
     curs_set(0);
@@ -138,7 +148,7 @@ int main(int argc, char *argv[])
 
 int add_sl(int x)
 {
-    static char *sl[LOGOPATTERNS][LOGOHEIGHT + 1]
+    static wchar_t *sl[LOGOPATTERNS][LOGOHEIGHT + 1]
         = {{LOGO1, LOGO2, LOGO3, LOGO4, LWHL11, LWHL12, DELLN},
            {LOGO1, LOGO2, LOGO3, LOGO4, LWHL21, LWHL22, DELLN},
            {LOGO1, LOGO2, LOGO3, LOGO4, LWHL31, LWHL32, DELLN},
@@ -146,10 +156,10 @@ int add_sl(int x)
            {LOGO1, LOGO2, LOGO3, LOGO4, LWHL51, LWHL52, DELLN},
            {LOGO1, LOGO2, LOGO3, LOGO4, LWHL61, LWHL62, DELLN}};
 
-    static char *coal[LOGOHEIGHT + 1]
+    static wchar_t *coal[LOGOHEIGHT + 1]
         = {LCOAL1, LCOAL2, LCOAL3, LCOAL4, LCOAL5, LCOAL6, DELLN};
 
-    static char *car[LOGOHEIGHT + 1]
+    static wchar_t *car[LOGOHEIGHT + 1]
         = {LCAR1, LCAR2, LCAR3, LCAR4, LCAR5, LCAR6, DELLN};
 
     int i, y, py1 = 0, py2 = 0, py3 = 0;
@@ -182,7 +192,7 @@ int no_dot_file_filter(const struct dirent *entry) {
 
 int add_D51(int x)
 {
-    static char *d51[D51PATTERNS][D51HEIGHT + 1]
+    static wchar_t *d51[D51PATTERNS][D51HEIGHT + 1]
         = {{D51STR1, D51STR2, D51STR3, D51STR4, D51STR5, D51STR6, D51STR7,
             D51WHL11, D51WHL12, D51WHL13, D51DEL},
            {D51STR1, D51STR2, D51STR3, D51STR4, D51STR5, D51STR6, D51STR7,
@@ -196,17 +206,17 @@ int add_D51(int x)
            {D51STR1, D51STR2, D51STR3, D51STR4, D51STR5, D51STR6, D51STR7,
             D51WHL61, D51WHL62, D51WHL63, D51DEL}};
     
-    static char *coal[D51HEIGHT + 1]
+    static wchar_t *coal[D51HEIGHT + 1]
         = {COAL01, COAL02, COAL03, COAL04, COAL05,
            COAL06, COAL07, COAL08, COAL09, COAL10, COALDEL};
     
-    static char *car[D51HEIGHT + 1]
+    static wchar_t *car[D51HEIGHT + 1]
         = {CAR01, CAR02, CAR03, CAR04, CAR05,
            CAR06, CAR07, CAR08, CAR09, CAR10, COALDEL};
 
     int y, i, j, cars, pos, dy = 0;
     struct dirent **namelist = NULL;
-    char carName[32];
+    wchar_t carName[32];
 
     cars = FILE_CARS ? scandir(".", &namelist, no_dot_file_filter, alphasort) : 0;
     if (x < - (D51LENGTH + ((cars > 0) ? cars * 31 : 0)))  return ERR;
@@ -230,7 +240,7 @@ int add_D51(int x)
                 break;
             }
 
-            snprintf(carName, 32, car[i], namelist[j]->d_name);
+            swprintf(carName, 32, car[i], namelist[j]->d_name);
             my_mvaddstr(y + i + dy, x + 53 + 29 * (j + 1), carName);
         }
     }
@@ -251,7 +261,7 @@ int add_D51(int x)
 
 int add_C51(int x)
 {
-    static char *c51[C51PATTERNS][C51HEIGHT + 1]
+    static wchar_t *c51[C51PATTERNS][C51HEIGHT + 1]
         = {{C51STR1, C51STR2, C51STR3, C51STR4, C51STR5, C51STR6, C51STR7,
             C51WH11, C51WH12, C51WH13, C51WH14, C51DEL},
            {C51STR1, C51STR2, C51STR3, C51STR4, C51STR5, C51STR6, C51STR7,
@@ -264,7 +274,7 @@ int add_C51(int x)
             C51WH51, C51WH52, C51WH53, C51WH54, C51DEL},
            {C51STR1, C51STR2, C51STR3, C51STR4, C51STR5, C51STR6, C51STR7,
             C51WH61, C51WH62, C51WH63, C51WH64, C51DEL}};
-    static char *coal[C51HEIGHT + 1]
+    static wchar_t *coal[C51HEIGHT + 1]
         = {COALDEL, COAL01, COAL02, COAL03, COAL04, COAL05,
            COAL06, COAL07, COAL08, COAL09, COAL10, COALDEL};
 
@@ -292,7 +302,7 @@ int add_C51(int x)
 
 void add_man(int y, int x)
 {
-    static char *man[2][2] = {{"", "(O)"}, {"Help!", "\\O/"}};
+    static wchar_t *man[2][2] = {{L"", L"(O)"}, {L"Help!", L"\\O/"}};
     int i;
 
     for (i = 0; i < 2; ++i) {
@@ -309,20 +319,20 @@ void add_smoke(int y, int x)
         int ptrn, kind;
     } S[1000];
     static int sum = 0;
-    static char *Smoke[2][SMOKEPTNS]
-        = {{"(   )", "(    )", "(    )", "(   )", "(  )",
-            "(  )" , "( )"   , "( )"   , "()"   , "()"  ,
-            "O"    , "O"     , "O"     , "O"    , "O"   ,
-            " "                                          },
-           {"(@@@)", "(@@@@)", "(@@@@)", "(@@@)", "(@@)",
-            "(@@)" , "(@)"   , "(@)"   , "@@"   , "@@"  ,
-            "@"    , "@"     , "@"     , "@"    , "@"   ,
-            " "                                          }};
-    static char *Eraser[SMOKEPTNS]
-        =  {"     ", "      ", "      ", "     ", "    ",
-            "    " , "   "   , "   "   , "  "   , "  "  ,
-            " "    , " "     , " "     , " "    , " "   ,
-            " "                                          };
+    static wchar_t *Smoke[2][SMOKEPTNS]
+        = {{L"(   )", L"(    )", L"(    )", L"(   )", L"(  )",
+            L"(  )" , L"( )"   , L"( )"   , L"()"   , L"()"  ,
+            L"O"    , L"O"     , L"O"     , L"O"    , L"O"   ,
+            L" "                                          },
+           {L"(@@@)", L"(@@@@)", L"(@@@@)", L"(@@@)", L"(@@)",
+            L"(@@)" , L"(@)"   , L"(@)"   , L"@@"   , L"@@"  ,
+            L"@"    , L"@"     , L"@"     , L"@"    , L"@"   ,
+            L" "                                          }};
+    static wchar_t *Eraser[SMOKEPTNS]
+        =  {L"     ", L"      ", L"      ", L"     ", L"    ",
+            L"    " , L"   "   , L"   "   , L"  "   , L"  "  ,
+            L" "    , L" "     , L" "     , L" "    , L" "   ,
+            L" "                                          };
     static int dy[SMOKEPTNS] = { 2,  1, 1, 1, 0, 0, 0, 0, 0, 0,
                                  0,  0, 0, 0, 0, 0             };
     static int dx[SMOKEPTNS] = {-2, -1, 0, 1, 1, 1, 1, 1, 2, 2,

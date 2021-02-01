@@ -7,7 +7,7 @@
 
 struct dirent
 {
-	char d_name[MAX_PATH];
+	wchar_t d_name[MAX_PATH];
 };
 
 typedef int(*filter_t)(const struct dirent*);

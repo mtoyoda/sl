@@ -8,7 +8,7 @@
 
 int alphasort(const struct dirent **lhs, const struct dirent **rhs)
 {
-    return strcmp((*lhs)->d_name, (*rhs)->d_name);
+    return wcscmp((*lhs)->d_name, (*rhs)->d_name);
 }
 
 struct dirlist
@@ -21,9 +21,10 @@ int scandir(const char *dirp, struct dirent ***namelist, filter_t filter, compar
 {
     int count = 0;
     HANDLE find = INVALID_HANDLE_VALUE;
-    WIN32_FIND_DATAA data;
+    WIN32_FIND_DATA data;
     char *dirstr = NULL;
-    int dirlen;
+    int dirlen = 0;
+    size_t converted = 0;
 
     struct dirlist node;
     struct dirlist *cur = &node;
@@ -36,11 +37,16 @@ int scandir(const char *dirp, struct dirent ***namelist, filter_t filter, compar
     ZeroMemory(&node, sizeof(node));
 
     dirlen = strlen(dirp) + 3;
-    dirstr = calloc(dirlen, sizeof(char));
-    strncat_s(dirstr, dirlen, dirp, strlen(dirp));
-    strncat_s(dirstr, dirlen, "/*", 2);
+    dirstr = calloc(dirlen, sizeof(wchar_t));
+    if (mbstowcs_s(&converted, dirstr, dirlen, dirp, strlen(dirp)))
+    {
+       count = 0;
+       goto Error;
+    }
 
-    find = FindFirstFileA(dirstr, &data);
+    wcsncat_s(dirstr, dirlen, L"/*", 2);
+
+    find = FindFirstFileW(dirstr, &data);
     if (INVALID_HANDLE_VALUE == find)
     {
         count = 0;
@@ -51,7 +57,7 @@ int scandir(const char *dirp, struct dirent ***namelist, filter_t filter, compar
     {
         struct dirent temp;
         ZeroMemory(&temp, sizeof(temp));
-        strcpy(temp.d_name, data.cFileName);
+        wcscpy(temp.d_name, data.cFileName);
         if (filter && !filter(&temp))
         {
             continue;
@@ -70,7 +76,7 @@ int scandir(const char *dirp, struct dirent ***namelist, filter_t filter, compar
 
         cur = cur->next;
         ++count;
-    } while (FindNextFileA(find, &data));
+    } while (FindNextFileW(find, &data));
 
     results = malloc(count * sizeof(struct dirent *));
     if (!results)
