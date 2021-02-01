@@ -50,4 +50,5 @@ add_library(pdcurses STATIC
             ./PDCurses/pdcurses/border.c
             ./PDCurses/pdcurses/panel.c)
 
+target_compile_definitions(pdcurses PUBLIC PDC_WIDE UNICODE _UNICODE)
 target_include_directories(pdcurses PUBLIC ./PDCurses)
