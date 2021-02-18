@@ -11,8 +11,8 @@ CFLAGS=-O -Wall
 
 all: sl
 
-sl: sl.c sl.h
-	$(CC) $(CFLAGS) -o sl sl.c -lncurses
+sl: sl.c sl.h quotes.c quotes.h
+	$(CC) $(CFLAGS) -o sl sl.c quotes.c quotes.h -lncurses
 
 clean:
 	rm -f sl

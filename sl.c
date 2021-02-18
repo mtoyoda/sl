@@ -42,11 +42,13 @@
 #include <signal.h>
 #include <unistd.h>
 #include "sl.h"
+#include "quotes.h"
 
 void add_smoke(int y, int x);
 void add_man(int y, int x);
 int add_C51(int x);
 int add_D51(int x);
+int add_COW(int x);
 int add_sl(int x);
 void option(char *str);
 int my_mvaddstr(int y, int x, char *str);
@@ -55,6 +57,7 @@ int ACCIDENT  = 0;
 int LOGO      = 0;
 int FLY       = 0;
 int C51       = 0;
+int COW_ON    = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -71,6 +74,7 @@ void option(char *str)
 
     while (*str != '\0') {
         switch (*str++) {
+            case 'v': COW_ON   = 1; break;
             case 'a': ACCIDENT = 1; break;
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
@@ -98,7 +102,10 @@ int main(int argc, char *argv[])
     scrollok(stdscr, FALSE);
 
     for (x = COLS - 1; ; --x) {
-        if (LOGO == 1) {
+        if (COW_ON == 1) {
+            if (add_COW(x) == ERR) break;
+        }
+        else if (LOGO == 1) {
             if (add_sl(x) == ERR) break;
         }
         else if (C51 == 1) {
@@ -109,7 +116,12 @@ int main(int argc, char *argv[])
         }
         getch();
         refresh();
-        usleep(40000);
+        if (COW_ON == 1) {
+            usleep(90000);
+        }
+        else {
+            usleep(40000);
+        }
     }
     mvcur(0, COLS - 1, LINES - 1, 0);
     endwin();
@@ -198,6 +210,38 @@ int add_D51(int x)
     add_smoke(y - 1, x + D51FUNNEL);
     return OK;
 }
+
+int add_COW(int x) {
+    static char * COW[COWPATTERNS][COWHEIGHT + 1]
+        = { {COWSTR1, COWSTR2, COWSTR3, COWPW11, COWPW12, C51DEL},
+            {COWSTR1, COWSTR2, COWSTR3, COWPW21, COWPW22, C51DEL},
+            {COWSTR1, COWSTR2, COWSTR3, COWPW31, COWPW32, C51DEL}};
+
+    int y  = 0;
+
+    if (x  < - COWLENGTH) return ERR;
+    y = LINES / 2 - 5;
+
+    for (int i = 0; i <= COWHEIGHT; ++i) {
+        my_mvaddstr(y + i, x, COW[(COWLENGTH + x) % COWPATTERNS][i]);
+        if (x == (COLS / 2)) {
+            char *buffer;
+            char *quote;
+
+            buffer = get_quotes();
+            quote = select_random_quote(buffer);
+
+            mvprintw(y - 3, 0, quote);
+            usleep(200000);
+
+            free(buffer);
+        }
+    }
+
+    return OK;
+
+}
+
 
 int add_C51(int x)
 {
