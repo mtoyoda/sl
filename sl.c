@@ -42,6 +42,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include "sl.h"
+#include "quotes.h"
 
 void add_smoke(int y, int x);
 void add_man(int y, int x);
@@ -223,6 +224,18 @@ int add_COW(int x) {
 
     for (int i = 0; i <= COWHEIGHT; ++i) {
         my_mvaddstr(y + i, x, COW[(COWLENGTH + x) % COWPATTERNS][i]);
+        if (x == (COLS / 2)) {
+            char *buffer;
+            char *quote;
+
+            buffer = get_quotes();
+            quote = select_random_quote(buffer);
+
+            mvprintw(y - 3, 0, quote);
+            usleep(200000);
+
+            free(buffer);
+        }
     }
 
     return OK;

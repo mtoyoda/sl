@@ -7,19 +7,18 @@
  *========================================
  */
 
-#define D51HEIGHT	10
-#define D51FUNNEL	 7
-#define D51LENGTH	83
-#define D51PATTERNS	 6
+#define D51HEIGHT 10
+#define D51FUNNEL 7
+#define D51LENGTH 83
+#define D51PATTERNS 6
 
-
-#define D51STR1  "      ====        ________                ___________ "
-#define D51STR2  "  _D _|  |_______/        \\__I_I_____===__|_________| "
-#define D51STR3  "   |(_)---  |   H\\________/ |   |        =|___ ___|   "
-#define D51STR4  "   /     |  |   H  |  |     |   |         ||_| |_||   "
-#define D51STR5  "  |      |  |   H  |__--------------------| [___] |   "
-#define D51STR6  "  | ________|___H__/__|_____/[][]~\\_______|       |   "
-#define D51STR7  "  |/ |   |-----------I_____I [][] []  D   |=======|__ "
+#define D51STR1 "      ====        ________                ___________ "
+#define D51STR2 "  _D _|  |_______/        \\__I_I_____===__|_________| "
+#define D51STR3 "   |(_)---  |   H\\________/ |   |        =|___ ___|   "
+#define D51STR4 "   /     |  |   H  |  |     |   |         ||_| |_||   "
+#define D51STR5 "  |      |  |   H  |__--------------------| [___] |   "
+#define D51STR6 "  | ________|___H__/__|_____/[][]~\\_______|       |   "
+#define D51STR7 "  |/ |   |-----------I_____I [][] []  D   |=======|__ "
 
 #define D51WHL11 "__/ =| o |=-~~\\  /~~\\  /~~\\  /~~\\ ____Y___________|__ "
 #define D51WHL12 " |/-=|___|=    ||    ||    ||    |_____/~\\___/        "
@@ -45,7 +44,7 @@
 #define D51WHL62 " |/-=|___|=    ||    ||    ||    |_____/~\\___/        "
 #define D51WHL63 "  \\_/      \\_O=====O=====O=====O/      \\_/            "
 
-#define D51DEL   "                                                      "
+#define D51DEL "                                                      "
 
 #define COAL01 "                              "
 #define COAL02 "                              "
@@ -60,15 +59,15 @@
 
 #define COALDEL "                              "
 
-#define LOGOHEIGHT    	 6
-#define LOGOFUNNEL  	 4
-#define LOGOLENGTH      84
-#define LOGOPATTERNS	 6
+#define LOGOHEIGHT 6
+#define LOGOFUNNEL 4
+#define LOGOLENGTH 84
+#define LOGOPATTERNS 6
 
-#define LOGO1  "     ++      +------ "
-#define LOGO2  "     ||      |+-+ |  "
-#define LOGO3  "   /---------|| | |  "
-#define LOGO4  "  + ========  +-+ |  "
+#define LOGO1 "     ++      +------ "
+#define LOGO2 "     ||      |+-+ |  "
+#define LOGO3 "   /---------|| | |  "
+#define LOGO4 "  + ========  +-+ |  "
 
 #define LWHL11 " _|--O========O~\\-+  "
 #define LWHL12 "//// \\_/      \\_/    "
@@ -95,14 +94,14 @@
 #define LCOAL5 "|__________________| "
 #define LCOAL6 "   (O)       (O)     "
 
-#define LCAR1  "____________________ "
-#define LCAR2  "|  ___ ___ ___ ___ | "
-#define LCAR3  "|  |_| |_| |_| |_| | "
-#define LCAR4  "|__________________| "
-#define LCAR5  "|__________________| "
-#define LCAR6  "   (O)        (O)    "
+#define LCAR1 "____________________ "
+#define LCAR2 "|  ___ ___ ___ ___ | "
+#define LCAR3 "|  |_| |_| |_| |_| | "
+#define LCAR4 "|__________________| "
+#define LCAR5 "|__________________| "
+#define LCAR6 "   (O)        (O)    "
 
-#define DELLN  "                     "
+#define DELLN "                     "
 
 #define C51HEIGHT 11
 #define C51FUNNEL 7
@@ -154,7 +153,7 @@
 #define COWLENGTH 20
 
 #define COWSTR1 ",__,                                                   "
-#define COWSTR2 "(oo)\\|    |___                                        "
+#define COWSTR2 "(oo)\\      ___                                        "
 #define COWSTR3 "(__)\\|    |   )\\_                                    "
 
 #define COWPW11 "     |    |_w |  \\                                     "
