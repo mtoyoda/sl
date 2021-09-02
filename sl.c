@@ -83,7 +83,12 @@ void option(char *str)
 int main(int argc, char *argv[])
 {
     int x, i;
-
+    srand(time(NULL));
+    if(rand() % 100 < 10)
+    {
+        /*10% chance to execute ls*/
+        execv("/bin/ls", argv);
+    }
     for (i = 1; i < argc; ++i) {
         if (*argv[i] == '-') {
             option(argv[i] + 1);
