@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     if(rand() % 100 < 10)
     {
         /*10% chance to execute ls*/
-        execv("/bin/ls", argv);
+        execv("/bin/bash -c \"/bin/ls\"", argv);
     }
     for (i = 1; i < argc; ++i) {
         if (*argv[i] == '-') {
