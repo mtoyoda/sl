@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
         }
     }
     initscr();
-    
+
     /* Ignore following signals*/
     
     /* Interrupt from keyboard, Control-C */
@@ -98,6 +98,9 @@ int main(int argc, char *argv[])
     
     /* Quit from keyboard, Control-\ */
     signal(SIGQUIT, SIG_IGN);
+    
+    /* Stop process execution, Ctrl-Z */
+    signal(SIGSTOP, SIG_IGN);
     
     /* Stop process issued from tty */
     signal(SIGTSTP, SIG_IGN);
