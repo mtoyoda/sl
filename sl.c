@@ -90,7 +90,18 @@ int main(int argc, char *argv[])
         }
     }
     initscr();
+    
+    /* Ignore following signals*/
+    
+    /* Interrupt from keyboard, Control-C */
     signal(SIGINT, SIG_IGN);
+    
+    /* Quit from keyboard, Control-\ */
+    signal(SIGQUIT, SIG_IGN);
+    
+    /* Stop process issued from tty */
+    signal(SIGTSTP, SIG_IGN);
+    
     noecho();
     curs_set(0);
     nodelay(stdscr, TRUE);
