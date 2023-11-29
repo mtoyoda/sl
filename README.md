@@ -1,9 +1,8 @@
-SL(1): Cure your bad habit of mistyping
-=======================================
+SL(1): Cure your bad habit of mistyping even more
+=================================================
 
-SL (Steam Locomotive) runs across your terminal when you type "sl" as
-you meant to type "ls". It's just a joke command, and not useful at
-all.
+SL (Steam Locomotive), with this version, is even more annoying
+because we fixed some bypass methods to skip the animation.
 
 Copyright 1993,1998,2014 Toyoda Masashi (mtoyoda@acm.org)
 
