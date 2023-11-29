@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
     }
     initscr();
 
-    /* Ignore following signals*/
+    /* Ignore following signals */
     
     /* Interrupt from keyboard, Control-C */
     signal(SIGINT, SIG_IGN);
