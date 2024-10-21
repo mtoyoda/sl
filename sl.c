@@ -72,6 +72,7 @@ void option(char *str)
     while (*str != '\0') {
         switch (*str++) {
             case 'a': ACCIDENT = 1; break;
+            case 'h': ACCIDENT = 1; break;
             case 'F': FLY      = 1; break;
             case 'l': LOGO     = 1; break;
             case 'c': C51      = 1; break;
